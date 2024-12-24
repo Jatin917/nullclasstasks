@@ -5,6 +5,7 @@
 /.pnp
 .pnp.js
 /.env
+/.serviceAcc.json
 # testing
 /coverage
 

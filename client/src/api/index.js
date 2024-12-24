@@ -1,20 +1,29 @@
 import axios from "axios";
+import { getGoogleToken } from "../firebase/firebasePopup";
 
 const API=axios.create({
     baseURL:"http://localhost:5000"
 });
 
-API.interceptors.request.use((req)=>{
+
+API.interceptors.request.use(async (req)=>{
     if(localStorage.getItem("Profile")){
         req.headers.Authorization=`Bearer ${
             JSON.parse(localStorage.getItem("Profile")).token
         }`;
+    }
+    else {
+        const googleToken = await getGoogleToken(); // Get the Google token dynamically
+        if (googleToken) {
+            req.headers.Authorization = `Bearer ${googleToken}`; // Set the Google token
+        }
     }
     return req;
 })
 
 export const login=(authdata)=>API.post("user/login",authdata);
 export const signup=(authdata)=>API.post("user/signup",authdata);
+export const googleAuth=(authdata)=>API.post("user/googleauth",authdata);
 export const getallusers=()=> API.get("/user/getallusers");
 export const updateprofile=(id,updatedata)=>API.patch(`user/update/${id}`,updatedata)
 

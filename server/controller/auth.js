@@ -20,7 +20,7 @@ export const signup = async (req, res) => {
         )
         res.status(200).json({ result: newuser, token });
     } catch (error) {
-        res.status(500).json("something went wrong...")
+        res.status(500).json({message:error.message})
         return
     }
 }
@@ -44,7 +44,35 @@ export const login = async (req, res) => {
 
         res.status(200).json({ result: extinguser, token })
     } catch (error) {
-        res.status(500).json("something went wrong...")
+        res.status(500).json({message:error.message})
         return
+    }
+}
+
+export const googleAuth = async (req, res) => {
+    try {
+        console.log(req.user)
+        const { name, email } = req.user;
+        let user = await users.findOne({ email });
+        if (!user) {
+            user = await users.create({
+                name,
+                email,
+                provider: "google"
+            });
+            if (!user) {
+                return res.status(500).json({
+                    message: "User  creation failed",
+                });
+            }
+        }
+        const token = jwt.sign({
+            email: user.email, id: user._id
+        }, process.env.JWT_SECRET, { expiresIn: "1h" });
+        res.status(200).json({ result: user, token });
+    } catch (error) {
+        return res.status(500).json({
+            message: error.message,
+        });
     }
 }

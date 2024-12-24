@@ -5,6 +5,7 @@ import "./Auth.css"
 import icon from '../../assets/icon.png'
 import Aboutauth from './Aboutauth'
 import { signup, login } from '../../action/auth'
+import GoogleAuthButton from '../../Comnponent/GoogleAuthenticationButton/GoogleButton'
 const Auth = () => {
     const [issignup, setissignup] = useState(false)
     const [name, setname] = useState("");
@@ -79,6 +80,7 @@ const Auth = () => {
                         {issignup ? "Log in" : "Sign up"}
                     </button>
                 </p>
+                <GoogleAuthButton />
             </div>
         </section>
     )
