@@ -4,6 +4,28 @@ import mongoose from "mongoose";
     email:{type:String,required:true},
     password:{type:String},
     provider:{type:String, default:"local"},
+    profilePicture:{
+      type:String,
+      default:null
+    },
+    friends: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User'
+    }
+  ],
+  friend_requests_pending: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User'
+    }
+  ],
+  friend_requests_sent: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User'
+    }
+  ],
    //  id:{type:String},
     about:{type:String},
     tags:{type:[String]},

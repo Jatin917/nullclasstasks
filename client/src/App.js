@@ -6,8 +6,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import Allroutes from './Allroutes'
 import { useDispatch } from 'react-redux';
 import { fetchallquestion } from './action/question';
-import { auth, handleRedirectResult } from './firebase/firebasePopup';
-import { getRedirectResult } from 'firebase/auth';
+import { handleRedirectResult } from './firebase/firebasePopup';
 function App() {
   const [slidein,setslidein]=useState(true)
   const dispatch=useDispatch()

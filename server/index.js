@@ -6,6 +6,7 @@ import userroutes from "./routes/user.js"
 import questionroutes from "./routes/question.js"
 import answerroutes from "./routes/answer.js"
 import Connection from "./database/db.js"
+import mediaRoutes from './routes/mediaRoutes.js'
 const app = express();
 dotenv.config();
 app.use(express.json({ limit: "30mb", extended: true }))
@@ -16,6 +17,7 @@ app.use(cors());
 app.use("/user", userroutes);
 app.use('/questions', questionroutes)
 app.use('/answer',answerroutes)
+app.use('/media', mediaRoutes)
 app.get('/', (req, res) => {
     res.send("Codequest is running perfect")
 })
