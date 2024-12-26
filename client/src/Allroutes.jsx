@@ -8,11 +8,12 @@ import Displayquestion from './pages/Question/Displayquestion'
 import Tags from './pages/Tags/Tags'
 import Users from './pages/Users/Users'
 import Userprofile from './pages/Userprofile/Userprofile'
+import ProtectedRoute from './Comnponent/ProtectedRoute/ProtectedRoute'
 function Allroutes({slidein,handleslidein}) {
   return (
     <Routes>
         <Route path='/' element={<Home slidein={slidein} handleslidein={handleslidein}/>}/>
-        <Route path='/Askquestion' element={<Askquestion />}/>
+        <Route path='/Askquestion' element={<ProtectedRoute><Askquestion /></ProtectedRoute> }/>
         <Route path='/Auth' element={<Auth />}/>
         <Route path='/Question' element={<Question slidein={slidein} handleslidein={handleslidein}/>}/>
         <Route path='/Question/:id' element={<Displayquestion slidein={slidein} handleslidein={handleslidein}/>}/>

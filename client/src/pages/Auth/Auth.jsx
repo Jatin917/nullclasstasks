@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import "./Auth.css"
@@ -36,7 +36,11 @@ const Auth = () => {
         setpassword("")
 
     }
-
+    useEffect(()=>{
+        if(!!(JSON.parse(localStorage.getItem('Profile'))?.token)){
+            navigate("/");
+        }
+    },[navigate])
     return (
         <section className="auth-section">
             {issignup && <Aboutauth />}
