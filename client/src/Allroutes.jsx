@@ -10,6 +10,9 @@ import Users from './pages/Users/Users'
 import Userprofile from './pages/Userprofile/Userprofile'
 import ProtectedRoute from './Comnponent/ProtectedRoute/ProtectedRoute'
 import PostPage from './pages/Post/PostPage'
+import PostDetail from './Comnponent/Post/PostDetail'
+import AddPost from './pages/Post/AddPost'
+import CreatePost from './pages/Post/AddPost'
 function Allroutes({slidein,handleslidein}) {
   return (
     <Routes>
@@ -21,7 +24,9 @@ function Allroutes({slidein,handleslidein}) {
         <Route path='/Tags' element={<Tags slidein={slidein} handleslidein={handleslidein}/>}/>
         <Route path='/Users' element={<Users slidein={slidein} handleslidein={handleslidein}/>}/>
         <Route path='/Users/:id' element={<Userprofile slidein={slidein} handleslidein={handleslidein}/>}/>
-        <Route path='/Post' element={<PostPage slidein={slidein} handleslidein={handleslidein}/>}/>
+        <Route path='/Posts' element={<PostPage slidein={slidein} handleslidein={handleslidein}/>}/>
+        <Route path='/Posts/:id' element={<PostDetail slidein={slidein} handleslidein={handleslidein}/>}/>
+        <Route path='/addpost' element={<ProtectedRoute> <CreatePost slidein={slidein} handleslidein={handleslidein}/></ProtectedRoute>}/>
     </Routes>
   )
 }

@@ -38,7 +38,7 @@ export const disLikePost = (id) =>async(dispatch)=>{
 
 export const commentOnPost = (id, content) =>async(dispatch)=>{
     try {
-        console.log("comment on post action", content)
+        // console.log("comment on post action", content)
         const {status, data} = await api.commentOnPost(id, {content:content});
         if(status===200){
             dispatch({type:"CHANGE_POST_STAT", payload:data.newPost});
@@ -51,3 +51,24 @@ export const commentOnPost = (id, content) =>async(dispatch)=>{
     }
 }
 
+export const createPost = (formData, navigate)=> async(dispatch)=>{
+    try {
+        const {status, data} = await api.createPost(formData);
+        console.log(status);
+        if(status===200){
+            dispatch({type:"CREATE_POST", payload:data.post});
+            navigate("/Posts");
+            return { success: true, message: "Post Created successfully!" };
+        }
+        else if(status===403){
+            console.log("Daily Limit Exceded!")
+        }
+        else if(status===401){
+            console.log("This feature is not for you as you don't have friends");
+        }
+        return { success: false, message: "Unable to create the post. Please try again." };
+    } catch (error) {
+        console.log(error);
+        return { success: false, message: "An error occurred. Please try again later." };
+    }
+}

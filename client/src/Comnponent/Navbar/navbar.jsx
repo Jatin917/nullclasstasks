@@ -65,6 +65,7 @@ function Navbar({ handleslidein }) {
                                 </Link>
                             </Avatar>
                             <button className="nav-tem nav-links" onClick={handlelogout}>Log out</button>
+                            <Link to={"/addpost"} className="nav-tem nav-links" >Post</Link>
                         </>
                     )}
                 </div>

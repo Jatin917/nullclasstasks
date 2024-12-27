@@ -41,3 +41,8 @@ export const getAllPost = ()=> API.get("/media/post");
 export const likePost = (id)=> API.patch(`media/post/${id}/like`)
 export const dislikePost = (id)=> API.patch(`media/post/${id}/unlike`)
 export const commentOnPost = (id, content)=> API.post(`media/post/${id}/comment`, content)
+export const createPost = (formData)=> API.post(`media/post`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });

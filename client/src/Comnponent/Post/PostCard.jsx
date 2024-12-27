@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Share2, MoreVertical, Send, MessageCircle } from 'lucide-react';
 import sampleUser from '../../assets/SampleUser.png'
 import LikeComponent from './LikeComponent';
@@ -36,7 +37,7 @@ const PostCard = ({ post, cardStyles }) => {
             className="w-8 h-8 rounded-full"
           />
           <div>
-            <p className="text-sm font-medium">{post.user_id.name}</p>
+            <Link to={`/Users/${post.user_id._id}`} className="text-sm font-medium">{post.user_id.name}</Link>
             <p className="text-xs text-gray-500">{formatDateWithWeekday(post.created_at)}</p>
           </div>
         </div>
@@ -60,9 +61,9 @@ const PostCard = ({ post, cardStyles }) => {
 
       {/* Post Content */}
       <div className="p-3">
-        <h2 className="text-base font-medium text-gray-900 mb-2">
+        <Link to={`/Posts/${post._id}`} className="text-base font-medium text-gray-900 mb-2">
           {post.title}
-        </h2>
+        </Link>
         <p className="text-sm text-gray-600 line-clamp-2 mb-3">
           {post.content}
         </p>
@@ -97,7 +98,7 @@ const PostCard = ({ post, cardStyles }) => {
             {displayedComments.map((comment, index) => (
               <div key={index} className="flex space-x-2">
                 <img
-                  src={comment.ProfilePicture || sampleUser}
+                  src={comment.user_id.profilePicture || sampleUser}
                   alt={`${comment.userName} avatar`}
                   className="w-6 h-6 rounded-full flex-shrink-0"
                 />

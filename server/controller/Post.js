@@ -15,7 +15,7 @@ export const doPostController = async (req, res) => {
 
       if (friendsCount === 0) {
           return res
-              .status(403)
+              .status(401)
               .json({ message: "You cannot post as you don't have any friends" });
       }
 
@@ -26,8 +26,9 @@ export const doPostController = async (req, res) => {
       // Check posts made today
       const postsTodayCount = await postSchema.countDocuments({
           user_id: userId,
-          createdAt: { $gte: startOfDay },
+          created_at: { $gte: startOfDay },
       });
+      console.log(postsTodayCount);
 
       if (friendsCount < 10 && postsTodayCount >= friendsCount) {
           return res
@@ -35,11 +36,13 @@ export const doPostController = async (req, res) => {
               .json({ message: "Daily post limit reached. Please try again tomorrow" });
       }
 
-      const postData = req.body;
+      const {title, content, media_type} = req.body;
+      const postData = {title, content, media_type};
       session.startTransaction();
 
       // Create the post and link it to the user
-      const postRes = await postSchema.create([{ ...postData, user_id: userId }], { session });
+      const mediaUrl = `${req.protocol}://${req.get("host")}/uploads/${req.file.filename}`;
+      const postRes = await postSchema.create([{ ...postData, media_url:mediaUrl, user_id: userId }], { session }, {new:true});
       const updatedUser = await userschema.findByIdAndUpdate(
           userId,
           { $push: { posts: postRes[0]._id } },
@@ -51,7 +54,7 @@ export const doPostController = async (req, res) => {
       }
 
       await session.commitTransaction();
-      return res.status(201).json({ post: postRes[0], message: "Post created successfully" });
+      return res.status(200).json({ post: postRes, message: "Post created successfully" });
   } catch (error) {
       await session.abortTransaction();
       return res.status(500).json({ message: error.message });
@@ -80,7 +83,7 @@ export const likeController = async (req, res) =>{
 try {
     const userId = req.userid;
     const postId = req.params.id;
-    const newPost = await postSchema.findByIdAndUpdate(postId, {$addToSet : {likes:userId}}, {new:true});
+    const newPost = await postSchema.findByIdAndUpdate(postId, {$addToSet : {likes:userId}}, {new:true}).populate({path:"comments.user_id", select:"name profilePicture"}).populate({path:"user_id", select:"name profilePicture"});
     if(!newPost){
         throw new error("error in adding like");
     }
@@ -108,7 +111,7 @@ export const unlikeController = async (req, res) =>{
     try {
         const userId = req.userid;
         const postId = req.params.id;
-        const newPost = await postSchema.findByIdAndUpdate(postId, {$pull : {likes:userId}}, {new:true});
+        const newPost = await postSchema.findByIdAndUpdate(postId, {$pull : {likes:userId}}, {new:true}).populate({path:"comments.user_id", select:"name profilePicture"}).populate({path:"user_id", select:"name profilePicture"});
         if(!newPost){
             throw new error("error in removing like");
         }
@@ -121,7 +124,7 @@ export const unlikeController = async (req, res) =>{
 export const getUserPost = async (req, res) =>{
   try {
     const postId = req.params.id;
-    const post = await postSchema.findById(postId).populate({path:"comments.user_id", select:"name"});
+    const post = await postSchema.findById(postId).populate({path:"comments.user_id", select:"name"}).populate({path:"comments.user_id", select:"name profilePicture"}).populate({path:"user_id", select:"name profilePicture"});
     console.log(post)
     if(!post){
       return res.json("error while fetching post");

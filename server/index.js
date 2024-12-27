@@ -7,12 +7,18 @@ import questionroutes from "./routes/question.js"
 import answerroutes from "./routes/answer.js"
 import Connection from "./database/db.js"
 import mediaRoutes from './routes/mediaRoutes.js'
+import path from 'path'
+import { fileURLToPath } from "url";
+
 const app = express();
 dotenv.config();
 app.use(express.json({ limit: "30mb", extended: true }))
 app.use(express.urlencoded({ limit: "30mb", extended: true }))
 app.use(cors());
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 app.use("/user", userroutes);
 app.use('/questions', questionroutes)

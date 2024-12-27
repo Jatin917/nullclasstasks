@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { commentOnPost } from "../../action/post";
 import { Send } from "lucide-react";
+import sampleUser from '../../assets/SampleUser.png'
 
 const CommentComponent = ({ postId, setDisplayedComments }) => {
   const token = !!JSON.parse(localStorage.getItem("Profile"))?.token;
+  const currentUserImg = useSelector((state)=>state.currentuserreducer?.result?.profilePicture);
 const [newComment, setNewComment] = useState('');
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -27,7 +29,7 @@ const [newComment, setNewComment] = useState('');
   return (
     <div className="flex items-center space-x-2 mt-2">
       <img
-        src="/api/placeholder/24/24"
+        src={currentUserImg || sampleUser}
         alt="Your avatar"
         className="w-6 h-6 rounded-full"
       />
