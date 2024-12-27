@@ -52,13 +52,14 @@ export const login = async (req, res) => {
 export const googleAuth = async (req, res) => {
     try {
         console.log(req.user)
-        const { name, email } = req.user;
+        const { name, email, picture } = req.user;
         let user = await users.findOne({ email });
         if (!user) {
             user = await users.create({
                 name,
                 email,
-                provider: "google"
+                provider: "google",
+                profilePicture:picture
             });
             if (!user) {
                 return res.status(500).json({

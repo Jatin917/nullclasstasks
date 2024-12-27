@@ -36,3 +36,7 @@ export const votequestion=(id,value)=>API.patch(`/questions/vote/${id}`,{value})
 
 export const postanswer=(id,noofanswers,answerbody,useranswered)=>API.patch(`/answer/post/${id}`,{noofanswers,answerbody,useranswered});
 export const deleteanswer=(id,answerid,noofanswers)=>API.patch(`/answer/delete/${id}`,{answerid,noofanswers});
+
+export const getAllPost = ()=> API.get("/media/post");
+export const likePost = (id)=> API.patch(`media/post/${id}/like`)
+export const dislikePost = (id)=> API.patch(`media/post/${id}/unlike`)

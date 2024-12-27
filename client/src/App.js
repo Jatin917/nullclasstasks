@@ -7,10 +7,12 @@ import Allroutes from './Allroutes'
 import { useDispatch } from 'react-redux';
 import { fetchallquestion } from './action/question';
 import { handleRedirectResult } from './firebase/firebasePopup';
+import { fetchAllPost } from './action/post';
 function App() {
   const [slidein,setslidein]=useState(true)
   const dispatch=useDispatch()
 useEffect(()=>{
+  dispatch(fetchAllPost());
   dispatch(fetchallusers());
   dispatch(fetchallquestion());
 },[dispatch])
