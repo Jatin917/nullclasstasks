@@ -12,7 +12,7 @@ const PostPage = ({slidein}) => {
   };
   // const [posts, setPosts] = useState([]);
   const posts = useSelector((state)=> state.postReducer);
-  console.log(posts);
+  console.log("updated post", posts);
   return (
     <div className="flex min-h-[calc(100vh-100px)] max-w-[1250px] mx-auto">
         <Leftsidebar slidein={slidein} />

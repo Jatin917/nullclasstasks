@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { disLikePost, likePost } from "../../action/post";
 import { useNavigate } from "react-router-dom";
 
-const LikeComponent = ({setLikedLen, postId, likes, isLiked, setIsLiked}) => {
+const LikeComponent = ({postId, likes, isLiked, setIsLiked}) => {
   const token = !!(JSON.parse(localStorage.getItem('Profile'))?.token);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -18,7 +18,6 @@ const LikeComponent = ({setLikedLen, postId, likes, isLiked, setIsLiked}) => {
       const response = await dispatch(likePost(id));
       if(response.success){
         setIsLiked(true);
-        setLikedLen(prev=>prev+1)
         console.log("Liked Post");
       }
       else{
@@ -36,7 +35,6 @@ const LikeComponent = ({setLikedLen, postId, likes, isLiked, setIsLiked}) => {
       const response = await dispatch(disLikePost(id));
       if(response.success){
         setIsLiked(false);
-        setLikedLen(prev=>prev-1)
         console.log("Dis Liked Post");
       }
       else{

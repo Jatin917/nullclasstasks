@@ -40,3 +40,4 @@ export const deleteanswer=(id,answerid,noofanswers)=>API.patch(`/answer/delete/$
 export const getAllPost = ()=> API.get("/media/post");
 export const likePost = (id)=> API.patch(`media/post/${id}/like`)
 export const dislikePost = (id)=> API.patch(`media/post/${id}/unlike`)
+export const commentOnPost = (id, content)=> API.post(`media/post/${id}/comment`, content)

@@ -64,13 +64,13 @@ export const commentController = async (req, res) =>{
 try {
     const userId = req.userid;
     const postId = req.params.id;
-    const {content} = req.body;
-    const newPost = await postSchema.findByIdAndUpdate(postId, {$push : {comments:{user_id:userId, content}}});
+    const content = req.body.content;
+    const newPost = await postSchema.findByIdAndUpdate(postId, {$push : {comments:{user_id:userId, content}}}, {new:true}).populate({path:"comments.user_id", select:"name profilePicture"}).populate({path:"user_id", select:"name profilePicture"});
     if(!newPost){
         console.log("error in adding comment");
         throw new error("error in adding comment");
     }
-    return res.status(200).json({message: "Successfully added comment"});
+    return res.status(200).json({message: "Successfully added comment", newPost});
 } catch (error) {
     return res.status(500).json({message:error.message});
 }
@@ -80,7 +80,7 @@ export const likeController = async (req, res) =>{
 try {
     const userId = req.userid;
     const postId = req.params.id;
-    const newPost = await postSchema.findByIdAndUpdate(postId, {$addToSet : {likes:userId}});
+    const newPost = await postSchema.findByIdAndUpdate(postId, {$addToSet : {likes:userId}}, {new:true});
     if(!newPost){
         throw new error("error in adding like");
     }
@@ -108,7 +108,7 @@ export const unlikeController = async (req, res) =>{
     try {
         const userId = req.userid;
         const postId = req.params.id;
-        const newPost = await postSchema.findByIdAndUpdate(postId, {$pull : {likes:userId}});
+        const newPost = await postSchema.findByIdAndUpdate(postId, {$pull : {likes:userId}}, {new:true});
         if(!newPost){
             throw new error("error in removing like");
         }
@@ -133,7 +133,7 @@ export const getUserPost = async (req, res) =>{
 }
 export const getAllPost = async (req, res) =>{
   try {
-    const post = await postSchema.find().populate({path:"comments.user_id", select:"name profilePicture"}).populate({path:"user_id", select:"name ProfilePicture"});
+    const post = await postSchema.find().populate({path:"comments.user_id", select:"name profilePicture"}).populate({path:"user_id", select:"name profilePicture"});
     if(!post){
       return res.json("error while fetching post");
     }
