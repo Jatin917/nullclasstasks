@@ -1,143 +1,131 @@
 import React, { useState } from 'react';
-import { ArrowUp, ArrowDown, MessageSquare, Share2, Bookmark,Heart, MessageCircle, Send } from 'lucide-react';
+import { ChevronUp, ChevronDown, Share2, } from 'lucide-react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import sampleUser from '../../assets/SampleUser.png'
+import sampleUser from '../../assets/SampleUser.png';
 import Leftsidebar from '../Leftsidebar/Leftsidebar';
+import CommentComponent from './CommentComponent';
+import CommentDisplay from './CommentDisplay';
+import LikeComponent from './LikeComponent';
 
-const PostDetail = ({slidein}) => {
-    const { id } = useParams()
-    const posts = useSelector((state)=>state.postReducer);
-    const post = posts.filter((p)=>p._id===id)[0]
-    const [newComment, setNewComment] = useState('');
+const PostDetail = ({ slidein }) => {
+  const { id } = useParams();
+  const posts = useSelector((state) => state.postReducer);
+  const post = posts.filter((p) => p._id === id)[0];
   const [isLiked, setIsLiked] = useState(false);
-  const [isSaved, setIsSaved] = useState(false);
+  const [showAllComments, setShowAllComments] = useState(false);
 
   const handleLike = () => setIsLiked(!isLiked);
-  const handleSave = () => setIsSaved(!isSaved);
-  
-  const handleAddComment = (e) => {
-    e.preventDefault();
-    if (newComment.trim()) {
-      // Add comment logic here
-      setNewComment('');
-    }}
-    return (
-        <div className="flex min-h-[calc(100vh-100px)] max-w-[1250px] mx-auto bg-white">
-          <Leftsidebar slidein={slidein} />
-          
-          <div className="flex-1 grid md:grid-cols-[3fr,2fr] mt-[100px]">
-            {/* Left: Image Section */}
-            <div className="bg-black flex items-center">
-              {post.media_url && (
-                <img
-                  src={post.media_url}
-                  alt={post.title}
-                  className="w-full h-auto object-contain max-h-[80vh]"
-                />
-              )}
+
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', {
+      month: 'short',
+      day: '2-digit',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  };
+
+  return (
+    <div className="flex min-h-[calc(100vh-100px)] max-w-[1250px] mx-auto">
+      <Leftsidebar slidein={slidein} />
+
+      {/* Main Content Area */}
+      <div className="flex-1 mt-[60px] p-6">
+        <div className="max-w-4xl mx-auto">
+          {/* Question Header */}
+          <div className="mb-6">
+            <h1 className="text-2xl font-medium text-gray-900 mb-2">{post.title}</h1>
+            <div className="flex items-center gap-4 text-sm text-gray-600">
+              <span>Asked {formatDate(post.created_at)}</span>
+              <span>Viewed {post.views || 0} times</span>
             </div>
-    
-            {/* Right: Content Section */}
-            <div className="flex flex-col h-full border-l border-gray-200">
-              {/* Post Header */}
-              <div className="flex items-center p-4 border-b border-gray-200">
-                <img
-                  src={post.user_id?.profilePicture || sampleUser}
-                  alt="Profile"
-                  className="w-8 h-8 rounded-full mr-3"
-                />
-                <span className="font-medium text-sm">{post.user_id?.name}</span>
-              </div>
-    
-              {/* Comments Section */}
-              <div className="flex-1 overflow-y-auto p-4">
-                {/* Original Post */}
-                <div className="flex gap-3 mb-4">
-                  <img
-                    src={post.user_id?.profilePicture || sampleUser}
-                    alt="Profile"
-                    className="w-8 h-8 rounded-full"
-                  />
-                  <div>
-                    <span className="font-medium text-sm mr-2">{post.user_id?.name}</span>
-                    <span className="text-sm">{post.content}</span>
-                    <p className="text-xs text-gray-500 mt-1">
-                      {new Date(post.created_at).toLocaleDateString()}
-                    </p>
-                  </div>
-                </div>
-    
-                {/* Comments */}
-                {post.comments?.map((comment) => (
-                  <div key={comment._id} className="flex gap-3 mb-4">
-                    <img
-                      src={comment.user_id.profilePicture || sampleUser}
-                      alt="Profile"
-                      className="w-8 h-8 rounded-full"
-                    />
-                    <div>
-                      <span className="font-medium text-sm mr-2">{comment.user_id.name}</span>
-                      <span className="text-sm">{comment.content}</span>
-                      <p className="text-xs text-gray-500 mt-1">
-                        {new Date(comment.created_at).toLocaleDateString()}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-    
-              {/* Actions Section */}
-              <div className="border-t border-gray-200 p-4">
-                <div className="flex justify-between mb-4">
-                  <div className="flex gap-4">
-                    <button onClick={handleLike}>
-                      <Heart 
-                        size={24} 
-                        className={`${isLiked ? 'fill-red-500 stroke-red-500' : 'stroke-gray-700'}`}
-                      />
-                    </button>
-                    <button>
-                      <MessageCircle size={24} className="stroke-gray-700" />
-                    </button>
-                    <button>
-                      <Share2 size={24} className="stroke-gray-700" />
-                    </button>
-                  </div>
-                  <button onClick={handleSave}>
-                    <Bookmark 
-                      size={24} 
-                      className={`${isSaved ? 'fill-black stroke-black' : 'stroke-gray-700'}`}
-                    />
-                  </button>
+          </div>
+
+          {/* Main Grid */}
+          <div className="grid grid-cols-12 gap-4">
+            {/* Voting Column */}
+            <div className="col-span-1 flex flex-col items-center pt-2">
+              <LikeComponent post={post} isLiked={isLiked} setIsLiked={setIsLiked} />
+            </div>
+
+            {/* Main Content Column */}
+            <div className="col-span-11">
+              {/* Post Content */}
+              <div className="mb-6">
+                <div className="prose max-w-none mb-4">
+                  <p className="text-gray-800">{post.content}</p>
                 </div>
                 
-                <p className="font-medium text-sm mb-1">{post.likes?.length || 0} likes</p>
-                <p className="text-xs text-gray-500 mb-4">
-                  {new Date(post.created_at).toLocaleDateString()}
-                </p>
-    
-                {/* Add Comment */}
-                <form onSubmit={handleAddComment} className="flex items-center gap-2">
-                  <input
-                    type="text"
-                    value={newComment}
-                    onChange={(e) => setNewComment(e.target.value)}
-                    placeholder="Add a comment..."
-                    className="flex-1 text-sm p-2 focus:outline-none"
-                  />
-                  <button 
-                    type="submit"
-                    disabled={!newComment.trim()}
-                    className="text-blue-500 font-medium text-sm disabled:opacity-50"
-                  >
-                    Post
-                  </button>
-                </form>
+                {/* Media Content */}
+                {post.media_url && (
+                  <div className="my-4 border rounded-lg overflow-hidden">
+                    <img
+                      src={post.media_url}
+                      alt={post.title}
+                      className="w-full h-auto max-h-[500px] object-contain bg-gray-50"
+                    />
+                  </div>
+                )}
+
+                {/* Tags */}
+                <div className="flex flex-wrap gap-2 mb-4 mt-6">
+                  {post.tags?.map((tag, index) => (
+                    <span key={index} className="px-2 py-1 bg-blue-50 text-blue-600 rounded-md text-sm">
+                      {tag}
+                    </span>
+                  )) || null}
+                </div>
+
+                {/* User Card */}
+                <div className="flex justify-end mt-8">
+                  <div className="bg-blue-50 px-4 py-2 rounded w-48">
+                    <div className="text-xs text-gray-600 mb-2">
+                      Asked {formatDate(post.created_at)}
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <img
+                        src={post.user_id?.profilePicture || sampleUser}
+                        alt="Profile"
+                        className="w-8 h-8 rounded"
+                      />
+                      <div>
+                        <div className="text-sm font-medium text-blue-600">
+                          {post.user_id?.name}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Comments Section */}
+              <div className="mt-6 border-t pt-4">
+                <h2 className="text-lg font-medium mb-4">
+                  {post.comments?.length || 0} Comments
+                </h2>
+                <CommentDisplay post={post} showAllComments={showAllComments} setShowAllComments={setShowAllComments}/>
+                <div className="mt-4">
+                  <CommentComponent postId={id} />
+                </div>
               </div>
             </div>
           </div>
         </div>
-      );
+      </div>
+
+      {/* Optional Right Sidebar */}
+      <div className="hidden xl:block w-64 mt-[60px] p-4 border-l border-gray-200">
+        <div className="sticky top-[60px]">
+          <h3 className="text-sm font-medium mb-2">Related Questions</h3>
+          {/* Add related questions here */}
+        </div>
+      </div>
+    </div>
+  );
 };
+
 export default PostDetail;

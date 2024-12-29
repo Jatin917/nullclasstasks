@@ -1,75 +1,82 @@
-import { Heart } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import { ChevronDown, ChevronUp } from "lucide-react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { disLikePost, likePost } from "../../action/post";
 import { useNavigate } from "react-router-dom";
 
-const LikeComponent = ({postId, likes, isLiked, setIsLiked}) => {
-  const token = !!(JSON.parse(localStorage.getItem('Profile'))?.token);
+const LikeComponent = ({post, isLiked, setIsLiked }) => {
+  const token = !!JSON.parse(localStorage.getItem("Profile"))?.token;
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  async function handleLike(id){
-    console.log("handle like")
-    if(!token){
+  async function handleLike(id) {
+    console.log("handle like");
+    if (!token) {
       alert("You need to signup or login first");
       navigate("/auth");
-    }
-    else{
+    } else {
       const response = await dispatch(likePost(id));
-      if(response.success){
+      if (response.success) {
         setIsLiked(true);
         console.log("Liked Post");
-      }
-      else{
+      } else {
         console.log("Liking post failed");
       }
     }
   }
-  async function handleUnLike(id){
-    console.log("handle dislike")
-    if(!token){
+  async function handleUnLike(id) {
+    console.log("handle dislike");
+    if (!token) {
       alert("You need to signup or login first");
       navigate("/auth");
-    }
-    else{
+    } else {
       const response = await dispatch(disLikePost(id));
-      if(response.success){
+      if (response.success) {
         setIsLiked(false);
         console.log("Dis Liked Post");
-      }
-      else{
+      } else {
         console.log("Dis Liking post failed");
       }
     }
   }
-  useEffect(()=>{
-    currentUserLiked(likes);
-  },[likes]);
-  const currentUserId = useSelector((state)=>state.currentuserreducer?.result?._id);
-  function currentUserLiked(likedUserId){
-    for(let i = 0;i<likedUserId.length;i++){
-      if(likedUserId[i]===currentUserId){
+  useEffect(() => {
+    currentUserLiked(post?.likes);
+  }, [post?.likes]);
+  const currentUserId = useSelector(
+    (state) => state.currentuserreducer?.result?._id
+  );
+  function currentUserLiked(likedUserId) {
+    for (let i = 0; i < likedUserId.length; i++) {
+      if (likedUserId[i] === currentUserId) {
         setIsLiked(true);
         return;
-      } 
+      }
     }
     setIsLiked(false);
   }
   return (
-    <button
-      onClick={() => {
-        isLiked ? handleUnLike(postId) : handleLike(postId);
-      }}
-      className="flex items-center space-x-1 text-gray-600 hover:text-red-500"
-    >
-      <Heart
-        size={20}
-        className={`stroke-2 ${
-          isLiked ? "fill-red-500 text-red-500" : "fill-none text-gray-500"
+    <>
+      <button
+        onClick={()=>handleLike(post?._id)}
+        disabled={isLiked}
+        className={`p-1 hover:bg-gray-100 rounded ${
+          isLiked ? "text-orange-500 cursor-not-allowed" : "text-gray-500 cursor-pointer"
         }`}
-      />
-      <span className="text-sm">Like</span>
-    </button>
+      >
+        <ChevronUp size={36} />
+      </button>
+      <span className="text-xl font-medium my-2">
+        {post?.likes?.length || 0}
+      </span>
+      <button 
+        onClick={()=>handleUnLike(post._id)} 
+        disabled={!isLiked}
+        className={`p-1 hover:bg-gray-100 rounded ${
+            !isLiked ? "text-orange-500 cursor-not-allowed" : "text-gray-500 cursor-pointer"
+          }`}
+      >
+        <ChevronDown size={36} />
+      </button>
+    </>
   );
 };
 

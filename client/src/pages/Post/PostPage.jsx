@@ -15,21 +15,20 @@ const PostPage = ({slidein}) => {
   console.log("updated post", posts);
   return (
     <div className="flex min-h-[calc(100vh-100px)] max-w-[1250px] mx-auto">
-        <Leftsidebar slidein={slidein} />
+      <Leftsidebar slidein={slidein} />
 
-      {/* Main Content Area - scrollable container */}
+      {/* Main Content Area */}
       <div className="mt-[60px] flex-1 p-4 overflow-auto h-[calc(100vh-100px)]">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 auto-rows-min">
+        {/* Single Column Layout for StackOverflow-style cards */}
+        <div className="max-w-3xl mx-auto space-y-4">
           {posts && posts.length > 0 ? (
             posts.map((post) => (
-              <div className="h-fit" key={post._id}>
-                <PostCard 
-                  post={post}
-                />
+              <div key={post._id}>
+                <PostCard post={post} />
               </div>
             ))
           ) : (
-            <div className="col-span-full flex justify-center items-center h-32">
+            <div className="flex justify-center items-center h-32 bg-white rounded-lg border border-gray-200">
               <p className="text-gray-600">No posts available</p>
             </div>
           )}

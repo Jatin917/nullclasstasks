@@ -17,7 +17,7 @@ const [newComment, setNewComment] = useState('');
       alert("You need to signup or login first");
       navigate("/auth");
     } else {
-      const response = await dispatch(commentOnPost(id, comment));
+      const response = dispatch(commentOnPost(id, comment));
       if (response.success) {
         console.log("Commented on Post");
       } else {
