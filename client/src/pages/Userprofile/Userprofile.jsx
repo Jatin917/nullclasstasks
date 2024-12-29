@@ -1,24 +1,87 @@
-import React, { useState } from 'react'
-import Leftsidebar from '../../Comnponent/Leftsidebar/Leftsidebar'
-import { Link, useParams } from 'react-router-dom'
-import moment from 'moment'
-import { useSelector } from 'react-redux'
-import Avatar from '../../Comnponent/Avatar/Avatar'
-import Editprofileform from './Edirprofileform'
-import Profilebio from './Profilebio'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBirthdayCake, faPen } from '@fortawesome/free-solid-svg-icons'
-import { Home, Globe, Star, Users, Bookmark, Cake, Mail, UserPlus, UserMinus } from 'lucide-react';
+import React, { useState } from 'react';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { UserPlus, UserMinus, X, FlaskRound } from 'lucide-react';
+import Leftsidebar from '../../Comnponent/Leftsidebar/Leftsidebar';
+import sampleUser from '../../assets/SampleUser.png'
+import { acceptReq, cancelReq, rejectReq, sendReq, unfriendReq } from '../../action/friendShip';
 
-const Userprofile = ({ slidein }) => {
-  const { id } = useParams()
-  const [Switch, setswitch] = useState(false);
+const Userprofile = () => {
+  const isAuthenticated = !!(JSON.parse(localStorage.getItem('Profile'))?.token);
+  const { id } = useParams();
+  const [showPendingModal, setShowPendingModal] = useState(false);
+  const [showSentModal, setShowSentModal] = useState(false);
+  const [showFriendsModal, setShowFriendsModal] = useState(false);
+  
+  const users = useSelector((state) => state.usersreducer);
+  const currentprofile = users.filter((user) => user._id === id)[0];
+  const currentuser = useSelector((state) => state?.currentuserreducer?.result);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const users = useSelector((state)=>state.usersreducer)
-  const currentprofile = users.filter((user) => user._id === id)[0]
-  console.log(currentprofile);
-  const currentuser = useSelector((state)=>state.currentuserreducer)
-  // console.log(currentuser._id)
+  const isOwnProfile = currentprofile?._id === currentuser?._id;
+  function checkFriendShipStatus(arr, id){
+    if(!arr || !id) return false;
+    for(let i = 0;i<arr.length;i++){
+      if(arr[i]._id===id){
+        return true;
+      }
+    }
+    return false;
+  }
+  const isFriend = checkFriendShipStatus(currentprofile?.friends, currentuser?._id);
+  const hasSentRequest = checkFriendShipStatus(currentprofile?.friend_requests_sent, currentuser?._id);
+  const hasReceivedRequest = checkFriendShipStatus(currentprofile?.friend_requests_pending, currentuser?._id);
+
+  const handleSendRequest = () => {
+    if(!isAuthenticated){
+      alert("Please Login or Signup first");
+      navigate('/auth');
+    }
+    dispatch(sendReq(currentprofile?._id));
+    console.log('Sending friend request to:', currentprofile?._id);
+  };
+
+  const handleAcceptRequest = (userId) => {
+    if(!isAuthenticated){
+      alert("Please Login or Signup first");
+      navigate('/auth');
+    }
+    dispatch(acceptReq(userId));
+    setShowPendingModal(false);
+    console.log('Accepting request from:', userId);
+  };
+  
+  const handleRejectRequest = (userId) => {
+    if(!isAuthenticated){
+      alert("Please Login or Signup first");
+      navigate('/auth');
+    }
+    dispatch(rejectReq(userId));
+    setShowPendingModal(false);
+    console.log('Rejecting request from:', userId);
+  };
+
+  const handleCancelRequest = (userId) => {
+    if(!isAuthenticated){
+      alert("Please Login or Signup first");
+      navigate('/auth');
+    }
+    dispatch(cancelReq(userId));
+    setShowSentModal(false);
+    console.log('Canceling request to:', userId);
+  };
+
+  const handleUnfriend = (userId) => {
+    if(!isAuthenticated){
+      alert("Please Login or Signup first");
+      navigate('/auth');
+    }
+    dispatch(unfriendReq(userId));
+    setShowFriendsModal(false)
+    console.log('Unfriending:', userId);
+  };
+
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('en-US', {
       month: 'long',
@@ -26,81 +89,133 @@ const Userprofile = ({ slidein }) => {
       year: 'numeric'
     });
   };
+
   return (
-    <div className="profile-container">
+    <div className="profile-container flex min-h-[calc(100vh-100px)] max-w-[1250px] mx-auto">
       <Leftsidebar slidein={true} />
-      <div className="profile-content">
-        {/* Header Section with Orange Bar */}
-        <div className="orange-bar" />
+      <div className="profile-content mt-[60px] w-[100%]">
+        <div className="h-1 bg-orange-500" />
   
-        {/* Profile Container */}
-        <div className="profile-main">
-          {/* Profile Header */}
-          <div className="profile-header">
+        <div className="max-w-5xl mx-auto p-4">
+          <div className="flex items-start gap-6 mb-8">
             <img
-              src={currentprofile?.profilePicture || "/api/placeholder/128/128"}
+              src={currentprofile?.profilePicture || sampleUser}
               alt={currentprofile?.name}
-              className="profile-picture"
+              className="w-32 h-32 rounded-md"
             />
-            <div className="profile-details">
-              <h1 className="profile-name">{currentprofile?.name}</h1>
-              <div className="profile-meta">
-                <div className="profile-meta-item">
-                  <span className="icon">📧</span>
-                  <span>{currentprofile?.email}</span>
-                </div>
-                <div className="profile-meta-item">
-                  <span className="icon">🎂</span>
-                  <span>Member since {formatDate(currentprofile?.joinedon)}</span>
-                </div>
+            <div className="flex-1">
+              <div className="flex items-center gap-4 mb-2">
+                <h1 className="text-2xl font-bold">{currentprofile?.name}</h1>
+                {!isOwnProfile && (
+                  <div className="flex gap-2">
+                    {!isFriend && !hasSentRequest && !hasReceivedRequest && (
+                      <button 
+                        onClick={handleSendRequest}
+                        className="flex items-center gap-1 px-3 py-1.5 text-sm text-white bg-blue-500 hover:bg-blue-600 rounded border border-blue-600"
+                      >
+                        <UserPlus size={16} />
+                        Send Friend Request
+                      </button>
+                    )}
+                    {hasSentRequest && (
+                      <button 
+                        onClick={() => handleCancelRequest(currentprofile?._id)}
+                        className="flex items-center gap-1 px-3 py-1.5 text-sm text-blue-600 bg-transparent hover:bg-blue-50 rounded border border-blue-600"
+                      >
+                        <UserMinus size={16} />
+                        Cancel Request
+                      </button>
+                    )}
+                    {hasReceivedRequest && (
+                      <div className="flex gap-2">
+                        <button 
+                          onClick={() => handleCancelRequest(currentprofile?._id)}
+                          className="px-3 py-1.5 text-sm text-blue-600 bg-transparent hover:bg-blue-50 rounded border border-blue-600"
+                        >
+                          Cancel Request
+                        </button>
+                      </div>
+                    )}
+                    {isFriend && (
+                      <button 
+                        onClick={() => handleUnfriend(currentprofile?._id)}
+                        className="flex items-center gap-1 px-3 py-1.5 text-sm text-blue-600 bg-transparent hover:bg-blue-50 rounded border border-blue-600"
+                      >
+                        <UserMinus size={16} />
+                        Unfriend
+                      </button>
+                    )}
+                  </div>
+                )}
+              </div>
+              <div className="flex items-center gap-2 text-gray-600">
+                <span>🎂</span>
+                <span>Member since {formatDate(currentprofile?.joinedon)}</span>
               </div>
             </div>
           </div>
   
-          {/* Stats Cards */}
-          <div className="stats-cards">
-            {/* Connections Card */}
-            <div className="stats-card">
-              <div className="stats-card-header">
-                <h3>Connections</h3>
+          <div className="grid md:grid-cols-2 gap-6">
+            <div className="bg-white rounded-md border border-gray-200">
+              <div className="border-b border-gray-200 p-4">
+                <h3 className="text-lg font-semibold">Connections</h3>
               </div>
-              <div className="stats-card-body">
-                <div className="stats-item">
-                  <span className="icon">➕</span>
-                  <span>Pending Requests</span>
-                  <span>{currentprofile?.friend_requests_pending?.length || 0}</span>
-                </div>
-                <div className="stats-item">
-                  <span className="icon">➖</span>
-                  <span>Sent Requests</span>
-                  <span>{currentprofile?.friend_requests_sent?.length || 0}</span>
-                </div>
-                <div className="stats-item">
-                  <span className="icon">👥</span>
-                  <span>Friends</span>
+              <div className="divide-y divide-gray-200">
+                {isOwnProfile && (
+                  <>
+                    <div 
+                      className="flex items-center justify-between p-4 hover:bg-gray-50 cursor-pointer"
+                      onClick={() => setShowPendingModal(true)}
+                    >
+                      <div className="flex items-center gap-2">
+                        <span>➕</span>
+                        <span>Pending Requests</span>
+                      </div>
+                      <span>{currentprofile?.friend_requests_pending?.length || 0}</span>
+                    </div>
+                    <div 
+                      className="flex items-center justify-between p-4 hover:bg-gray-50 cursor-pointer"
+                      onClick={() => setShowSentModal(true)}
+                    >
+                      <div className="flex items-center gap-2">
+                        <span>➖</span>
+                        <span>Sent Requests</span>
+                      </div>
+                      <span>{currentprofile?.friend_requests_sent?.length || 0}</span>
+                    </div>
+                  </>
+                )}
+                <div 
+                  className="flex items-center justify-between p-4 hover:bg-gray-50 cursor-pointer"
+                  onClick={() => setShowFriendsModal(true)}
+                >
+                  <div className="flex items-center gap-2">
+                    <span>👥</span>
+                    <span>Friends</span>
+                  </div>
                   <span>{currentprofile?.friends?.length || 0}</span>
                 </div>
               </div>
             </div>
-  
-            {/* Activity Card */}
-            <div className="stats-card">
-              <div className="stats-card-header">
-                <h3>Activity</h3>
+
+            <div className="bg-white rounded-md border border-gray-200">
+              <div className="border-b border-gray-200 p-4">
+                <h3 className="text-lg font-semibold">Activity</h3>
               </div>
-              <div className="stats-card-body">
-                <div className="stats-item">
-                  <span className="icon">🔖</span>
-                  <span>Posts</span>
+              <div className="p-4">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-2">
+                    <span>🔖</span>
+                    <span>Posts</span>
+                  </div>
                   <span>{currentprofile?.posts?.length || 0}</span>
                 </div>
-                {/* Posts List */}
-                <div className="mt-4">
+                <div className="space-y-2">
                   {currentprofile?.posts?.map((post) => (
                     <Link
-                      key={post.id}
-                      href={`/posts/${post.id}`}
-                      className="block py-2 text-blue-600 hover:text-blue-800 hover:underline"
+                      key={post._id}
+                      to={`/posts/${post.id}`}
+                      className="block text-blue-600 hover:text-blue-800 hover:underline"
                     >
                       {post.title}
                     </Link>
@@ -111,8 +226,153 @@ const Userprofile = ({ slidein }) => {
           </div>
         </div>
       </div>
+
+      {/* Modal Overlay */}
+      {(showPendingModal || showSentModal || showFriendsModal) && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
+          onClick={() => {
+            setShowPendingModal(false);
+            setShowSentModal(false);
+            setShowFriendsModal(false);
+          }}
+        >
+          {/* Pending Requests Modal */}
+          {showPendingModal && (
+            <div 
+              className="bg-white rounded-md max-w-2xl w-full max-h-[80vh] overflow-y-auto"
+              onClick={e => e.stopPropagation()}
+            >
+              <div className="flex items-center justify-between border-b border-gray-200 p-4">
+                <h3 className="text-lg font-semibold">Pending Friend Requests</h3>
+                <button 
+                  className="text-gray-500 hover:text-gray-700"
+                  onClick={() => setShowPendingModal(false)}
+                >
+                  <X size={20} />
+                </button>
+              </div>
+              <div className="p-4 space-y-4">
+                {currentprofile?.friend_requests_pending?.map((request) => (
+                  <div key={request._id} className="flex items-center justify-between py-2">
+                    <div className="flex items-center gap-3">
+                      <img
+                        src={request.profilePicture || sampleUser}
+                        alt={request.name}
+                        className="w-8 h-8 rounded"
+                      />
+                      <span className="font-medium">{request.name}</span>
+                    </div>
+                    <div className="flex gap-2">
+                      <button 
+                        className="px-3 py-1.5 text-sm text-white bg-blue-500 hover:bg-blue-600 rounded"
+                        onClick={() => handleAcceptRequest(request._id)}
+                      >
+                        Accept
+                      </button>
+                      <button 
+                        className="px-3 py-1.5 text-sm text-gray-600 bg-gray-100 hover:bg-gray-200 rounded"
+                        onClick={() => handleRejectRequest(request._id)}
+                      >
+                        Reject
+                      </button>
+                    </div>
+                  </div>
+                ))}
+                {(!currentprofile?.friend_requests_pending?.length) && (
+                  <p className="text-center text-gray-500 py-8">No pending requests</p>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Sent Requests Modal */}
+          {showSentModal && (
+            <div 
+              className="bg-white rounded-md max-w-2xl w-full max-h-[80vh] overflow-y-auto"
+              onClick={e => e.stopPropagation()}
+            >
+              <div className="flex items-center justify-between border-b border-gray-200 p-4">
+                <h3 className="text-lg font-semibold">Sent Friend Requests</h3>
+                <button 
+                  className="text-gray-500 hover:text-gray-700"
+                  onClick={() => setShowSentModal(false)}
+                >
+                  <X size={20} />
+                </button>
+              </div>
+              <div className="p-4 space-y-4">
+                {currentprofile?.friend_requests_sent?.map((request) => (
+                  <div key={request._id} className="flex items-center justify-between py-2">
+                    <div className="flex items-center gap-3">
+                      <img
+                        src={request.profilePicture || sampleUser}
+                        alt={request.name}
+                        className="w-8 h-8 rounded"
+                      />
+                      <span className="font-medium">{request.name}</span>
+                    </div>
+                    <button 
+                      className="px-3 py-1.5 text-sm text-gray-600 bg-gray-100 hover:bg-gray-200 rounded"
+                      onClick={() => handleCancelRequest(request._id)}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                ))}
+                {(!currentprofile?.friend_requests_sent?.length) && (
+                  <p className="text-center text-gray-500 py-8">No sent requests</p>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Friends Modal */}
+          {showFriendsModal && (
+            <div 
+              className="bg-white rounded-md max-w-2xl w-full max-h-[80vh] overflow-y-auto"
+              onClick={e => e.stopPropagation()}
+            >
+              <div className="flex items-center justify-between border-b border-gray-200 p-4">
+                <h3 className="text-lg font-semibold">Friends</h3>
+                <button 
+                  className="text-gray-500 hover:text-gray-700"
+                  onClick={() => setShowFriendsModal(false)}
+                >
+                  <X size={20} />
+                </button>
+              </div>
+              <div className="p-4 space-y-4">
+                {currentprofile?.friends?.map((friend) => (
+                  <div key={friend._id} className="flex items-center justify-between py-2">
+                    <div className="flex items-center gap-3">
+                      <img
+                        src={friend.profilePicture || sampleUser}
+                        alt={friend.name}
+                        className="w-8 h-8 rounded"
+                      />
+                      <span className="font-medium">{friend.name}</span>
+                    </div>
+                    {isOwnProfile && (
+                      <button 
+                        className="px-3 py-1.5 text-sm text-gray-600 bg-gray-100 hover:bg-gray-200 rounded"
+                        onClick={() => handleUnfriend(friend._id)}
+                      >
+                        Unfriend
+                      </button>
+                    )}
+                  </div>
+                ))}
+                {(!currentprofile?.friends?.length) && (
+                  <p className="text-center text-gray-500 py-8">No friends yet</p>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
-  
 };
-export default Userprofile
+
+export default Userprofile;

@@ -3,7 +3,7 @@ import users from '../models/auth.js'
 
 export const getallusers = async (req, res) => {
     try {
-        const allusers = await users.find().populate(({path:"posts", select:"title"}));
+        const allusers = await users.find().populate(({path:"posts", select:"title"})).populate(({path:"friends", select:"name profilePicture"})).populate(({path:"friend_requests_sent", select:"name profilePicture"})).populate(({path:"friend_requests_pending", select:"name profilePicture"}));
         const alluserdetails = [];
         allusers.forEach((user) => {
             alluserdetails.push({ _id:user._id,

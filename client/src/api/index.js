@@ -46,3 +46,8 @@ export const createPost = (formData)=> API.post(`media/post`, formData, {
       "Content-Type": "multipart/form-data",
     },
   });
+export const sendFriendReq = (id) => API.post(`media/sendreq`, {fromId:id});
+export const acceptReq = (id) => API.post(`media/acceptreq`, {reqId:id});
+export const cancelReq = (id) => API.post(`media/cancelreq`, {reqId:id});
+export const unfriendReq = (id) => API.post(`media/unfriendreq`, {reqId:id});
+export const rejectReq = (id) => API.post(`media/rejectreq`, {reqId:id});
