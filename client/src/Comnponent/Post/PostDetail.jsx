@@ -7,6 +7,7 @@ import Leftsidebar from '../Leftsidebar/Leftsidebar';
 import CommentComponent from './CommentComponent';
 import CommentDisplay from './CommentDisplay';
 import LikeComponent from './LikeComponent';
+import ShareDialog from './ShareDialog';
 
 const PostDetail = ({ slidein }) => {
   const { id } = useParams();
@@ -50,6 +51,7 @@ const PostDetail = ({ slidein }) => {
             {/* Voting Column */}
             <div className="col-span-1 flex flex-col items-center pt-2">
               <LikeComponent post={post} isLiked={isLiked} setIsLiked={setIsLiked} />
+              <ShareDialog postId={post._id} postTitle={post.title} />
             </div>
 
             {/* Main Content Column */}

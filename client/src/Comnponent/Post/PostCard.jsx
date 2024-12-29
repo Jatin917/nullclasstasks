@@ -5,6 +5,7 @@ import sampleUser from '../../assets/SampleUser.png';
 import LikeComponent from './LikeComponent';
 import CommentComponent from './CommentComponent';
 import CommentDisplay from './CommentDisplay';
+import ShareDialog from './ShareDialog';
 
 const PostCard = ({ post, cardStyles }) => {
   const [isLiked, setIsLiked] = useState(false);
@@ -91,7 +92,7 @@ const PostCard = ({ post, cardStyles }) => {
           {/* User Card */}
           <div className="flex justify-between items-center mb-4 text-sm">
             <div className="flex items-center gap-2">
-              <Share2 size={16} className="text-gray-500" />
+            <ShareDialog postId={post._id} postTitle={post.title} />
               <span className="text-gray-500">Share</span>
               <MessageCircle size={16} className="ml-4 text-gray-500" />
               <span className="text-gray-500">{post.comments?.length || 0} comments</span>
