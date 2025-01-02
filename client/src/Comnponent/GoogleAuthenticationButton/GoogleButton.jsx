@@ -4,8 +4,10 @@ import { authenticationPopup, authenticationRedirect } from '../../firebase/fire
 import { useDispatch } from 'react-redux';
 import { googleAuth } from '../../action/auth';
 import { useNavigate } from 'react-router-dom';
+import { staticTranslator } from '../../services';
 
 const GoogleAuthButton = () => {
+  const targetLang = localStorage.getItem("lang") || "";
   const dispatch = useDispatch();
   const navigate = useNavigate();
   async function handleGoogleAuth() {
@@ -27,7 +29,7 @@ const GoogleAuthButton = () => {
       className="flex items-center justify-center w-full max-w-sm px-6 py-3 text-base font-medium text-gray-700 bg-white border border-gray-300 rounded-lg shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
     >
       <Chrome className="w-5 h-5 mr-3 text-blue-500" />
-      Continue with Google
+      {staticTranslator('Continue with Google', targetLang)}
     </button>
   );
 };

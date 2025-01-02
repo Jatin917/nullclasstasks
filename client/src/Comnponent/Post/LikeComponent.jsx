@@ -3,15 +3,17 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { disLikePost, likePost } from "../../action/post";
 import { useNavigate } from "react-router-dom";
+import { staticTranslator } from "../../services";
 
 const LikeComponent = ({post, isLiked, setIsLiked }) => {
+  const targetLang = localStorage.getItem("lang") || ""
   const token = !!JSON.parse(localStorage.getItem("Profile"))?.token;
   const dispatch = useDispatch();
   const navigate = useNavigate();
   async function handleLike(id) {
     console.log("handle like");
     if (!token) {
-      alert("You need to signup or login first");
+      alert(staticTranslator("alertLoginMsg", targetLang));
       navigate("/auth");
     } else {
       const response = await dispatch(likePost(id));
@@ -26,7 +28,7 @@ const LikeComponent = ({post, isLiked, setIsLiked }) => {
   async function handleUnLike(id) {
     console.log("handle dislike");
     if (!token) {
-      alert("You need to signup or login first");
+      alert(staticTranslator("alertLoginMsg", targetLang));
       navigate("/auth");
     } else {
       const response = await dispatch(disLikePost(id));

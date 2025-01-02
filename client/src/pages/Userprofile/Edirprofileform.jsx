@@ -2,7 +2,9 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { updateprofile } from '../../action/users'
 import './Userprofile.css'
+import { staticTranslator } from '../../services'
 const Edirprofileform = ({ currentuser, setswitch }) => {
+  const targetLang = localStorage.getItem("lang") || "";
   const [name, setname] = useState(currentuser?.result?.name)
   const [about, setabout] = useState(currentuser?.result?.about)
   const [tags, settags] = useState([])
@@ -11,7 +13,7 @@ const Edirprofileform = ({ currentuser, setswitch }) => {
   const handlesubmit = (e) => {
     e.preventDefault()
     if (tags[0] === '' || tags.length === 0) {
-      alert("update tags field")
+      alert(staticTranslator("update tags field", targetLang))
     }else{
       dispatch(updateprofile(currentuser?.result?._id,{name,about,tags}))
     }
@@ -19,20 +21,20 @@ const Edirprofileform = ({ currentuser, setswitch }) => {
   }
   return (
     <div>
-      <h1 className="edit-profile-title">Edit Your Profile</h1>
-      <h2 className='edit-profile-title-2'>Public Information</h2>
+      <h1 className="edit-profile-title">{staticTranslator("Edit Your Profile", targetLang)}</h1>
+      <h2 className='edit-profile-title-2'>{staticTranslator("Public Information", targetLang)}</h2>
       <form className="edit-profile-form" onSubmit={handlesubmit}>
         <label htmlFor="name">
-          <h3>Display name</h3>
+          <h3>{staticTranslator("Display name",targetLang)}</h3>
           <input type="text" value={name} onChange={(e) => setname(e.target.value)} />
         </label>
         <label htmlFor="about">
-          <h3>About me</h3>
+          <h3>{staticTranslator("About me", targetLang)}</h3>
           <textarea name="" id="about" cols="30" rows="10" value={about} onChange={(e) => setabout(e.target.value)}></textarea>
         </label>
         <label htmlFor="tags">
-          <h3>Watched tags</h3>
-          <p>Add tags separated by 1 space</p>
+          <h3>{staticTranslator("Watched tags", targetLang)}</h3>
+          <p>{staticTranslator("Add tags separated by 1 space", targetLang)}</p>
           <input
             type="text"
             id="tags"
@@ -41,7 +43,7 @@ const Edirprofileform = ({ currentuser, setswitch }) => {
         </label>
         <br />
         <input type="submit" value="save profile" className='user-submit-btn' />
-        <button type='button' className='user-cancel-btn' onClick={() => setswitch(false)}>Cancel</button>
+        <button type='button' className='user-cancel-btn' onClick={() => setswitch(false)}>{staticTranslator("Cancel", targetLang)}</button>
       </form>
     </div>
   )

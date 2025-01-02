@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Share2, MoreVertical, MessageCircle, ChevronUp, ChevronDown, BookmarkPlus } from 'lucide-react';
+import { MoreVertical, MessageCircle, BookmarkPlus } from 'lucide-react';
 import sampleUser from '../../assets/SampleUser.png';
 import LikeComponent from './LikeComponent';
 import CommentComponent from './CommentComponent';
@@ -113,38 +113,6 @@ const PostCard = ({ post, cardStyles }) => {
               </div>
             </div>
           </div>
-
-          {/* Comments Section */}
-          {/* {post.comments?.length > 0 && (
-            <div className="border-t border-gray-200 pt-4 mt-4">
-              <div className="space-y-3">
-                {displayedComments.map((comment, index) => (
-                  <div key={index} className="flex gap-3 text-sm border-b border-gray-100 pb-3">
-                    <img
-                      src={comment.user_id.profilePicture || sampleUser}
-                      alt={`${comment.user_id.name} avatar`}
-                      className="w-6 h-6 rounded"
-                    />
-                    <div className="flex-1">
-                      <div className="text-gray-600">{comment.content}</div>
-                      <div className="mt-1 text-xs text-gray-500">
-                        - {comment.user_id.name}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {post.comments.length > 2 && !showAllComments && (
-                <button
-                  onClick={() => setShowAllComments(true)}
-                  className="mt-3 text-sm text-blue-600 hover:text-blue-800"
-                >
-                  Show {post.comments.length - 2} more comments
-                </button>
-              )}
-            </div>
-          )} */}
           <CommentDisplay post={post} setShowAllComments={setShowAllComments} showAllComments={showAllComments} />
 
           {/* Comment Input */}

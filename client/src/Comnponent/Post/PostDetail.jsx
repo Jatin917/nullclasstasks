@@ -11,7 +11,7 @@ import ShareDialog from './ShareDialog';
 
 const PostDetail = ({ slidein }) => {
   const { id } = useParams();
-  const posts = useSelector((state) => state.postReducer);
+  const posts = useSelector((state) => state.translatedDataReducer);
   const post = posts.filter((p) => p._id === id)[0];
   const [isLiked, setIsLiked] = useState(false);
   const [showAllComments, setShowAllComments] = useState(false);

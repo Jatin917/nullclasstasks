@@ -1,18 +1,20 @@
 import React from 'react'
+import { staticTranslator } from '../../services';
 
 const Aboutauth = () => {
+  const targetLang = localStorage.getItem("lang");
   return (
     <div className="auth-container-1">
-      <h1>Join the Stack Overflow community</h1>
-      <p>Get unstuck — ask a question</p>
-      <p>Unlock new privileges like voting and commenting</p>
-      <p>Save your favorite tags, filters, and jobs</p>
-      <p>Earn reputation and badges</p>
+      <h1>{staticTranslator("Join the Stack Overflow community", targetLang)}</h1>
+      <p>{staticTranslator("Get unstuck — ask a question", targetLang)}</p>
+      <p>{staticTranslator("Unlock new privileges like voting and commenting", targetLang)}</p>
+      <p>{staticTranslator("Save your favorite tags, filters, and jobs", targetLang)}</p>
+      <p>{staticTranslator("Earn reputation and badges", targetLang)}</p>
       <p style={{ fontSize: "13px", color: "#666767" }}>
-        Collaborate and share knowledge with a private group for
+        {staticTranslator("Collaborate and share knowledge with a private group for", targetLang)}
       </p>
       <p style={{ fontSize: "13px", color: "#007ac6" }}>
-        Get Stack Overflow for Teams free for up to 50 users.
+        {staticTranslator("Get Stack Overflow for Teams free for up to 50 users.", targetLang)}
       </p>
     </div>
   )

@@ -7,31 +7,52 @@ import search from "../../assets/search-solid.svg";
 import Avatar from "../Avatar/Avatar";
 import "./navbar.css";
 import { setcurrentuser } from "../../action/currentuser";
-import { jwtDecode } from "jwt-decode";
+import {jwtDecode} from "jwt-decode";
 import sampleUser from "../../assets/SampleUser.png";
+import { staticTranslator } from "../../services";
 
-function Navbar({ handleslidein }) {
-  var User = useSelector((state) => state.currentuserreducer);
+function Navbar({ handleslidein, targetLang, setTargetLang }) {
+  const languages = {
+    hi: "Hindi",
+    en: "English",
+    fr: "French",
+    pt: "Portuguese",
+    zh: "Chinese",
+    es: "Spanish",
+  };
+
+  const User = useSelector((state) => state.currentuserreducer);
   const currentuser = useSelector((state) => state?.currentuserreducer?.result);
-  // console.log(User)
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   const handlelogout = () => {
     dispatch({ type: "LOGOUT" });
     navigate("/");
     dispatch(setcurrentuser(null));
   };
+  useEffect(()=>{
+    const lang = localStorage.getItem("lang");
+    if(lang) setTargetLang(lang);
+  },[])
 
   useEffect(() => {
     const token = User?.token;
     if (token) {
       const decodedtoken = jwtDecode(token);
       if (decodedtoken.exp * 1000 < new Date().getTime()) {
+        // alert("Your session expired Please login again")
         handlelogout();
       }
     }
     dispatch(setcurrentuser(JSON.parse(localStorage.getItem("Profile"))));
   }, [User?.token, dispatch]);
+
+  const handleLanguageChange = (e) => {
+    localStorage.setItem("lang", e.target.value);
+    setTargetLang(e.target.value);
+  };
+
   return (
     <nav className="main-nav">
       <div className="navbar">
@@ -43,13 +64,13 @@ function Navbar({ handleslidein }) {
             <img src={logo} alt="logo" />
           </Link>
           <Link to="/" className="nav-item nav-btn res-nav">
-            About
+            {staticTranslator('About', targetLang)}
           </Link>
           <Link to="/" className="nav-item nav-btn res-nav">
-            Products
+          {staticTranslator('Products', targetLang)}
           </Link>
           <Link to="/" className="nav-item nav-btn res-nav">
-            For Teams
+          {staticTranslator('For Teams', targetLang)}
           </Link>
           <form>
             <input type="text" placeholder="Search..." />
@@ -59,34 +80,47 @@ function Navbar({ handleslidein }) {
         <div className="navbar-2">
           {User === null ? (
             <Link to="/Auth" className="nav-item nav-links">
-              Log in
+          {staticTranslator('Log in', targetLang)}
             </Link>
           ) : (
             <>
               <div className="my-auto h-full">
-              <Link to={`/Users/${User?.result?._id}`}>
-                <img
-                  className="w-[40px] h-[40px] rounded-full m-auto"
-                  src={currentuser?.profilePicture || sampleUser}
-                  alt={sampleUser || "User"}
-                  style={{
-                    width: "40px",
-                    height: "40px",
-                    borderRadius: "50%",
-                    objectFit: "cover",
-                  }}
-                />
-              </Link>
+                <Link to={`/Users/${User?.result?._id}`}>
+                  <img
+                    className="w-[40px] h-[40px] rounded-full m-auto"
+                    src={currentuser?.profilePicture || sampleUser}
+                    alt={sampleUser || "User"}
+                    style={{
+                      width: "40px",
+                      height: "40px",
+                      borderRadius: "50%",
+                      objectFit: "cover",
+                    }}
+                  />
+                </Link>
               </div>
-
               <button className="nav-tem nav-links" onClick={handlelogout}>
-                Log out
+          {staticTranslator('logout', targetLang)}
               </button>
               <Link to={"/addpost"} className="nav-tem nav-links">
-                Post
+                  {staticTranslator('post', targetLang)}
               </Link>
             </>
           )}
+          {/* Language Selector */}
+          <div className="language-selector">
+            <select
+              value={targetLang}
+              onChange={handleLanguageChange}
+              className="language-dropdown"
+            >
+              {Object.entries(languages).map(([key, value]) => (
+                <option key={key} value={key}>
+                  {value}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
       </div>
     </nav>

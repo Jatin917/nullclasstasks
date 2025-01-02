@@ -4,7 +4,7 @@ function Questionlist({questionlist}) {
   // console.log(questionlist)
   return (
     <>
-    {questionlist.map((question)=>(
+    {questionlist?.map((question)=>(
       <Question question={question} key ={question._id}/>
     ))}
     </>

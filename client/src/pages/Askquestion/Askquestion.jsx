@@ -3,7 +3,9 @@ import './Askquestion.css'
 import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from "react-redux"
 import { askquestion } from '../../action/question'
+import { staticTranslator } from '../../services'
 const Askquestion = () => {
+    const targetLang = localStorage.getItem("lang") || "";
     const navigate = useNavigate();
     const dispatch=useDispatch();
     const user = useSelector((state)=>state.currentuserreducer)
@@ -15,13 +17,13 @@ const Askquestion = () => {
         if (user) {
             if (questionbody && questiontitle && questiontag) {
                 dispatch(askquestion({questiontitle,questionbody,questiontag,userposted:user.result.name},navigate))
-                alert("you have successfuly posted a question")
+                alert(staticTranslator("successfullyPostedQuestion", targetLang))
 
             } else {
-                alert("Please enter all the fields")
+                alert(staticTranslator("Please enter all the fields", targetLang))
             }
         } else {
-            alert("Login to ask question")
+            alert(staticTranslator("Login to ask question", targetLang))
         }
     }
     const handleenter = (e) => {
@@ -33,20 +35,20 @@ const Askquestion = () => {
     return (
         <div className="ask-question">
             <div className="ask-ques-container">
-                <h1>Ask a public Question</h1>
+                <h1>{staticTranslator("Ask a public Question", targetLang)}</h1>
                 <form onSubmit={handlesubmit}>
                     <div className="ask-form-container">
                         <label htmlFor="ask-ques-title">
-                            <h4>Title</h4>
-                            <p>Be specific and imagine you're asking a question to another person</p>
+                            <h4>{staticTranslator("Title", targetLang)}</h4>
+                            <p>{staticTranslator("Be specific and imagine you're asking a question to another person", targetLang)}</p>
                             <input type="text" id="ask-ques-title"
                                 onChange={(e) => {
                                     setquestiontitle(e.target.value);
-                                }} placeholder='e.g. Is there an R function for finding the index of an element in a vector?' />
+                                }} placeholder={staticTranslator('e.g. Is there an R function for finding the index of an element in a vector?', targetLang)} />
                         </label>
                         <label htmlFor="ask-ques-body">
-                            <h4>Body</h4>
-                            <p>Include all the information someone would need to answer your question</p>
+                            <h4>{staticTranslator("Body", targetLang)}</h4>
+                            <p>{staticTranslator("Include all the information someone would need to answer your question", targetLang)}</p>
                             <textarea name="" id="ask-ques-body" onChange={(e) => {
                                 setquestionbody(e.target.value);
 
@@ -57,17 +59,17 @@ const Askquestion = () => {
                             ></textarea>
                         </label>
                         <label htmlFor="ask-ques-tags">
-                            <h4>Tags</h4>
-                            <p>Add up to 5 tags to descibe what your question is about</p>
+                            <h4>{staticTranslator("Tags", targetLang)}</h4>
+                            <p>{staticTranslator("Add up to 5 tags to descibe what your question is about", targetLang)}</p>
                             <input type="text" id='ask-ques-tags' onChange={(e) => {
                                 setquestiontags(e.target.value.split(" "));
                             }}
-                                placeholder='e.g. (xml typescript wordpress'
+                                placeholder={staticTranslator('e.g. (xml typescript wordpress', targetLang)}
                             />
                         </label>
                     </div>
                     <input type="submit"
-                        value="Review your question"
+                        value={staticTranslator("Review your question", targetLang)}
                         className='review-btn' />
                 </form>
             </div>

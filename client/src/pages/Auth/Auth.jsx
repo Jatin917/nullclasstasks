@@ -6,6 +6,7 @@ import icon from '../../assets/icon.png'
 import Aboutauth from './Aboutauth'
 import { signup, login } from '../../action/auth'
 import GoogleAuthButton from '../../Comnponent/GoogleAuthenticationButton/GoogleButton'
+import { staticTranslator } from '../../services'
 const Auth = () => {
     const [issignup, setissignup] = useState(false)
     const [name, setname] = useState("");
@@ -13,14 +14,15 @@ const Auth = () => {
     const [password, setpassword] = useState("")
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const targetLang = localStorage.getItem("lang") || "";
     const handlesubmit = (e) => {
         e.preventDefault();
         if (!email && !password) {
-            alert("Enter email and password")
+            alert(staticTranslator("Enter email and password", targetLang))
         }
         if (issignup) {
             if (!name) {
-                alert("Enter a name to continue")
+                alert(staticTranslator("Enter a name to continue", targetLang))
             }
             dispatch(signup({ name, email, password }, navigate))
             
@@ -49,24 +51,24 @@ const Auth = () => {
                 <form onSubmit={handlesubmit}>
                     {issignup && (
                         <label htmlFor="name">
-                            <h4>Display Name</h4>
+                            <h4>{staticTranslator("Display Name", targetLang)}</h4>
                             <input type="text" id='name' name='name' value={name} onChange={(e) => {
                                 setname(e.target.value);
                             }} />
                         </label>
                     )}
                     <label htmlFor="email">
-                        <h4>Email</h4>
+                        <h4>{staticTranslator("Email", targetLang)}</h4>
                         <input type="email" id='email' name='email' value={email} onChange={(e) => {
                             setemail(e.target.value);
                         }} />
                     </label>
                     <label htmlFor="password">
                         <div style={{ display: "flex", justifyContent: "space-between" }}>
-                            <h4>Password</h4>
+                            <h4>{staticTranslator("Password", targetLang)}</h4>
                             {!issignup && (
                                 <p style={{ color: "#007ac6", fontSize: "13px" }}>
-                                    Forgot Password?
+                                    {staticTranslator("Forgot Password?", targetLang)}
                                 </p>
                             )}
                         </div>
@@ -75,13 +77,13 @@ const Auth = () => {
                         }} />
                     </label>
                     <button type='submit' className='auth-btn' >
-                        {issignup ? "Sign up" : "Log in"}
+                        {issignup ? staticTranslator("Sign up", targetLang) : staticTranslator("Log in", targetLang)}
                     </button>
                 </form>
                 <p>
-                    {issignup ? "Already have an account?" : "Don't have an account"}
+                    {issignup ? staticTranslator("Already have an account?", targetLang) : staticTranslator("Don't have an account", targetLang)}
                     <button type='button' className='handle-switch-btn' onClick={handleswitch}>
-                        {issignup ? "Log in" : "Sign up"}
+                        {issignup ? staticTranslator("Log in", targetLang) : staticTranslator("Sign up", targetLang)}
                     </button>
                 </p>
                 <GoogleAuthButton />

@@ -1,11 +1,13 @@
 import React from "react";
 import sampleUser from '../../assets/SampleUser.png'
+import { staticTranslator } from "../../services";
 
 const CommentDisplay = ({
     post,
     setShowAllComments,
-    showAllComments,
+    showAllComments
 }) => {
+  const targetLang = localStorage.getItem("lang");
     const formatDate = (dateString) => {
         const date = new Date(dateString);
         return date.toLocaleDateString('en-US', {
@@ -37,7 +39,7 @@ const CommentDisplay = ({
                 <div className="flex items-center gap-2 mt-2">
                     <span className="text-xs text-blue-600">{comment.user_id.name}</span>
                     <span className="text-xs text-gray-500">
-                    commented {formatDate(comment.created_at)}
+                    {staticTranslator('commented', targetLang)} {formatDate(comment.created_at)}
                     </span>
                 </div>
                 </div>
@@ -50,7 +52,7 @@ const CommentDisplay = ({
               onClick={() => setShowAllComments(true)}
               className="mt-3 text-sm text-blue-600 hover:text-blue-800"
             >
-              Show {post.comments.length - 2} more comments
+              {staticTranslator('Show', targetLang)} {post.comments.length - 2} {staticTranslator('more comments', targetLang)}
             </button>
           )}
         </div>

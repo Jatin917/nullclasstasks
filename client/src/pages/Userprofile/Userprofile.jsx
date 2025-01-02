@@ -5,15 +5,17 @@ import { UserPlus, UserMinus, X, FlaskRound } from 'lucide-react';
 import Leftsidebar from '../../Comnponent/Leftsidebar/Leftsidebar';
 import sampleUser from '../../assets/SampleUser.png'
 import { acceptReq, cancelReq, rejectReq, sendReq, unfriendReq } from '../../action/friendShip';
+import { staticTranslator } from '../../services';
 
 const Userprofile = () => {
+  const targetLang = localStorage.getItem("lang");
   const isAuthenticated = !!(JSON.parse(localStorage.getItem('Profile'))?.token);
   const { id } = useParams();
   const [showPendingModal, setShowPendingModal] = useState(false);
   const [showSentModal, setShowSentModal] = useState(false);
   const [showFriendsModal, setShowFriendsModal] = useState(false);
   
-  const users = useSelector((state) => state.usersreducer);
+  const users = useSelector((state) => state.translatedUsersDataReducer);
   const currentprofile = users.filter((user) => user._id === id)[0];
   const currentuser = useSelector((state) => state?.currentuserreducer?.result);
   const dispatch = useDispatch();
@@ -35,7 +37,7 @@ const Userprofile = () => {
 
   const handleSendRequest = () => {
     if(!isAuthenticated){
-      alert("Please Login or Signup first");
+      alert(staticTranslator("Please Login or Signup first", targetLang));
       navigate('/auth');
     }
     dispatch(sendReq(currentprofile?._id));
@@ -44,7 +46,7 @@ const Userprofile = () => {
 
   const handleAcceptRequest = (userId) => {
     if(!isAuthenticated){
-      alert("Please Login or Signup first");
+      alert(staticTranslator("Please Login or Signup first", targetLang));
       navigate('/auth');
     }
     dispatch(acceptReq(userId));
@@ -54,7 +56,7 @@ const Userprofile = () => {
   
   const handleRejectRequest = (userId) => {
     if(!isAuthenticated){
-      alert("Please Login or Signup first");
+      alert(staticTranslator("Please Login or Signup first", targetLang));
       navigate('/auth');
     }
     dispatch(rejectReq(userId));
@@ -64,7 +66,7 @@ const Userprofile = () => {
 
   const handleCancelRequest = (userId) => {
     if(!isAuthenticated){
-      alert("Please Login or Signup first");
+      alert(staticTranslator("Please Login or Signup first", targetLang));
       navigate('/auth');
     }
     dispatch(cancelReq(userId));
@@ -74,7 +76,7 @@ const Userprofile = () => {
 
   const handleUnfriend = (userId) => {
     if(!isAuthenticated){
-      alert("Please Login or Signup first");
+      alert(staticTranslator("Please Login or Signup first", targetLang));
       navigate('/auth');
     }
     dispatch(unfriendReq(userId));
@@ -114,7 +116,7 @@ const Userprofile = () => {
                         className="flex items-center gap-1 px-3 py-1.5 text-sm text-white bg-blue-500 hover:bg-blue-600 rounded border border-blue-600"
                       >
                         <UserPlus size={16} />
-                        Send Friend Request
+                        {staticTranslator("Send Friend Request", targetLang)}
                       </button>
                     )}
                     {hasSentRequest && (
@@ -123,7 +125,7 @@ const Userprofile = () => {
                         className="flex items-center gap-1 px-3 py-1.5 text-sm text-blue-600 bg-transparent hover:bg-blue-50 rounded border border-blue-600"
                       >
                         <UserMinus size={16} />
-                        Cancel Request
+                        {staticTranslator("Cancel Request", targetLang)}
                       </button>
                     )}
                     {hasReceivedRequest && (
@@ -132,7 +134,7 @@ const Userprofile = () => {
                           onClick={() => handleCancelRequest(currentprofile?._id)}
                           className="px-3 py-1.5 text-sm text-blue-600 bg-transparent hover:bg-blue-50 rounded border border-blue-600"
                         >
-                          Cancel Request
+                          {staticTranslator("Cancel Request", targetLang)}
                         </button>
                       </div>
                     )}
@@ -142,7 +144,7 @@ const Userprofile = () => {
                         className="flex items-center gap-1 px-3 py-1.5 text-sm text-blue-600 bg-transparent hover:bg-blue-50 rounded border border-blue-600"
                       >
                         <UserMinus size={16} />
-                        Unfriend
+                        {staticTranslator("Unfriend", targetLang)}
                       </button>
                     )}
                   </div>
@@ -150,7 +152,7 @@ const Userprofile = () => {
               </div>
               <div className="flex items-center gap-2 text-gray-600">
                 <span>🎂</span>
-                <span>Member since {formatDate(currentprofile?.joinedon)}</span>
+                <span>{staticTranslator("Member since", targetLang)} {formatDate(currentprofile?.joinedon)}</span>
               </div>
             </div>
           </div>
@@ -158,7 +160,7 @@ const Userprofile = () => {
           <div className="grid md:grid-cols-2 gap-6">
             <div className="bg-white rounded-md border border-gray-200">
               <div className="border-b border-gray-200 p-4">
-                <h3 className="text-lg font-semibold">Connections</h3>
+                <h3 className="text-lg font-semibold">{staticTranslator("Connections", targetLang)}</h3>
               </div>
               <div className="divide-y divide-gray-200">
                 {isOwnProfile && (
@@ -169,7 +171,7 @@ const Userprofile = () => {
                     >
                       <div className="flex items-center gap-2">
                         <span>➕</span>
-                        <span>Pending Requests</span>
+                        <span>{staticTranslator("Pending Requests", targetLang)}</span>
                       </div>
                       <span>{currentprofile?.friend_requests_pending?.length || 0}</span>
                     </div>
@@ -179,7 +181,7 @@ const Userprofile = () => {
                     >
                       <div className="flex items-center gap-2">
                         <span>➖</span>
-                        <span>Sent Requests</span>
+                        <span>{staticTranslator("Sent Requests", targetLang)}</span>
                       </div>
                       <span>{currentprofile?.friend_requests_sent?.length || 0}</span>
                     </div>
@@ -191,7 +193,7 @@ const Userprofile = () => {
                 >
                   <div className="flex items-center gap-2">
                     <span>👥</span>
-                    <span>Friends</span>
+                    <span>{staticTranslator("Friends", targetLang)}</span>
                   </div>
                   <span>{currentprofile?.friends?.length || 0}</span>
                 </div>
@@ -200,13 +202,13 @@ const Userprofile = () => {
 
             <div className="bg-white rounded-md border border-gray-200">
               <div className="border-b border-gray-200 p-4">
-                <h3 className="text-lg font-semibold">Activity</h3>
+                <h3 className="text-lg font-semibold">{staticTranslator("Activity", targetLang)}</h3>
               </div>
               <div className="p-4">
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-2">
                     <span>🔖</span>
-                    <span>Posts</span>
+                    <span>{staticTranslator("Posts", targetLang)}</span>
                   </div>
                   <span>{currentprofile?.posts?.length || 0}</span>
                 </div>
@@ -244,7 +246,7 @@ const Userprofile = () => {
               onClick={e => e.stopPropagation()}
             >
               <div className="flex items-center justify-between border-b border-gray-200 p-4">
-                <h3 className="text-lg font-semibold">Pending Friend Requests</h3>
+                <h3 className="text-lg font-semibold">{staticTranslator("Pending Friend Requests", targetLang)}</h3>
                 <button 
                   className="text-gray-500 hover:text-gray-700"
                   onClick={() => setShowPendingModal(false)}
@@ -268,19 +270,19 @@ const Userprofile = () => {
                         className="px-3 py-1.5 text-sm text-white bg-blue-500 hover:bg-blue-600 rounded"
                         onClick={() => handleAcceptRequest(request._id)}
                       >
-                        Accept
+                        {staticTranslator("Accept", targetLang)}
                       </button>
                       <button 
                         className="px-3 py-1.5 text-sm text-gray-600 bg-gray-100 hover:bg-gray-200 rounded"
                         onClick={() => handleRejectRequest(request._id)}
                       >
-                        Reject
+                        {staticTranslator("Reject", targetLang)}
                       </button>
                     </div>
                   </div>
                 ))}
                 {(!currentprofile?.friend_requests_pending?.length) && (
-                  <p className="text-center text-gray-500 py-8">No pending requests</p>
+                  <p className="text-center text-gray-500 py-8">{staticTranslator("No pending requests", targetLang)}</p>
                 )}
               </div>
             </div>
@@ -293,7 +295,7 @@ const Userprofile = () => {
               onClick={e => e.stopPropagation()}
             >
               <div className="flex items-center justify-between border-b border-gray-200 p-4">
-                <h3 className="text-lg font-semibold">Sent Friend Requests</h3>
+                <h3 className="text-lg font-semibold">{staticTranslator("Sent Friend Requests", targetLang)}</h3>
                 <button 
                   className="text-gray-500 hover:text-gray-700"
                   onClick={() => setShowSentModal(false)}
@@ -316,12 +318,12 @@ const Userprofile = () => {
                       className="px-3 py-1.5 text-sm text-gray-600 bg-gray-100 hover:bg-gray-200 rounded"
                       onClick={() => handleCancelRequest(request._id)}
                     >
-                      Cancel
+                      {staticTranslator("Cancel", targetLang)}
                     </button>
                   </div>
                 ))}
                 {(!currentprofile?.friend_requests_sent?.length) && (
-                  <p className="text-center text-gray-500 py-8">No sent requests</p>
+                  <p className="text-center text-gray-500 py-8">{staticTranslator("No sent requests", targetLang)}</p>
                 )}
               </div>
             </div>
@@ -334,7 +336,7 @@ const Userprofile = () => {
               onClick={e => e.stopPropagation()}
             >
               <div className="flex items-center justify-between border-b border-gray-200 p-4">
-                <h3 className="text-lg font-semibold">Friends</h3>
+                <h3 className="text-lg font-semibold">{staticTranslator("Friends", targetLang)}</h3>
                 <button 
                   className="text-gray-500 hover:text-gray-700"
                   onClick={() => setShowFriendsModal(false)}
@@ -358,13 +360,13 @@ const Userprofile = () => {
                         className="px-3 py-1.5 text-sm text-gray-600 bg-gray-100 hover:bg-gray-200 rounded"
                         onClick={() => handleUnfriend(friend._id)}
                       >
-                        Unfriend
+                        {staticTranslator("Unfriend", targetLang)}
                       </button>
                     )}
                   </div>
                 ))}
                 {(!currentprofile?.friends?.length) && (
-                  <p className="text-center text-gray-500 py-8">No friends yet</p>
+                  <p className="text-center text-gray-500 py-8">{staticTranslator("No friends yet", targetLang)}</p>
                 )}
               </div>
             </div>

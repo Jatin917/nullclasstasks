@@ -9,6 +9,7 @@ import Connection from "./database/db.js"
 import mediaRoutes from './routes/mediaRoutes.js'
 import path from 'path'
 import { fileURLToPath } from "url";
+import { translator } from "./controller/translator.js"
 
 const app = express();
 dotenv.config();
@@ -24,6 +25,7 @@ app.use("/user", userroutes);
 app.use('/questions', questionroutes)
 app.use('/answer',answerroutes)
 app.use('/media', mediaRoutes)
+app.get('/translate', translator);
 app.get('/', (req, res) => {
     res.send("Codequest is running perfect")
 })

@@ -4,8 +4,10 @@ import { useNavigate } from "react-router-dom";
 import { commentOnPost } from "../../action/post";
 import { Send } from "lucide-react";
 import sampleUser from '../../assets/SampleUser.png'
+import { staticTranslator } from "../../services";
 
 const CommentComponent = ({ postId, setDisplayedComments }) => {
+  const targetLang = localStorage.getItem("lang") || ""
   const token = !!JSON.parse(localStorage.getItem("Profile"))?.token;
   const currentUserImg = useSelector((state)=>state.currentuserreducer?.result?.profilePicture);
 const [newComment, setNewComment] = useState('');
@@ -14,7 +16,7 @@ const [newComment, setNewComment] = useState('');
   async function handleComment(id, comment) {
     console.log("handle Comment ", comment);
     if (!token) {
-      alert("You need to signup or login first");
+      alert(staticTranslator("alertMsgLogin", targetLang));
       navigate("/auth");
     } else {
       const response = dispatch(commentOnPost(id, comment));

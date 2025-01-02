@@ -3,15 +3,11 @@ import PostCard from "../../Comnponent/Post/PostCard";
 import axios from "axios";
 import Leftsidebar from "../../Comnponent/Leftsidebar/Leftsidebar";
 import { useSearchParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { translator } from "../../action/translator";
 
 const PostPage = ({slidein}) => {
-  const cardStyles = {
-    height: "300px", // Can be adjusted dynamically
-    width: "250px", // Can also be dynamic
-  };
-  // const [posts, setPosts] = useState([]);
-  const posts = useSelector((state)=> state.postReducer);
+  const posts = useSelector((state)=> state.translatedPostDataReducer);  
   console.log("updated post", posts);
   return (
     <div className="flex min-h-[calc(100vh-100px)] max-w-[1250px] mx-auto">

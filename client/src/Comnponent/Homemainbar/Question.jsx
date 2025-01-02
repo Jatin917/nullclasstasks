@@ -1,17 +1,19 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import moment from "moment"
+import { staticTranslator } from '../../services';
 
 const Question = ({ question }) => {
+    const targetLang = localStorage.getItem("lang");
     return (
         <div className="display-question-container">
             <div className="display-votes-ans">
                 <p>{question.upvote.length - question.downvote.length}</p>
-                <p>votes</p>
+                <p>{staticTranslator("votes", targetLang)}</p>
             </div>
             <div className="display-votes-ans">
                 <p>{question.noofanswers}</p>
-                <p>answers</p>
+                <p>{staticTranslator("answers", targetLang)}</p>
             </div>
             <div className="display-question-details">
                 <Link to={`/Question/${question._id}`} className='question-title-link'>
@@ -30,7 +32,7 @@ const Question = ({ question }) => {
                         ))}
                     </div>
                     <p className="display-time">
-                        asked {moment(question.askedon).fromNow()} {question.userposted}
+                        {staticTranslator("asked", targetLang)} {moment(question.askedon).fromNow()} {question.userposted}
                     </p>
                 </div>
             </div>

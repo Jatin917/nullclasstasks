@@ -9,10 +9,12 @@ import Displayanswer from './Displayanswer'
 import { useSelector, useDispatch } from "react-redux"
 import { Link ,useNavigate,useLocation,useParams} from 'react-router-dom'
 import {deletequestion,votequestion,postanswer} from '../../action/question'
+import { staticTranslator } from '../../services'
 const Qustiondetails = () => {
+    const targetLang = localStorage.getItem("lang") || "";
     const [answer,setanswer]=useState("")
     const dispatch=useDispatch()
-    const questionlist=useSelector((state)=>state.questionreducer)
+    const questionlist=useSelector((state)=>state.translatedQuestionsDataReducer)
     const { id } = useParams();
     const user =useSelector((state)=>state.currentuserreducer)
     const location=useLocation()
@@ -21,11 +23,11 @@ const Qustiondetails = () => {
     const handlepostans=(e,answerlength)=>{
         e.preventDefault();
         if(user ===null){
-            alert("Login or Signup to answer a question")
+            alert(staticTranslator("Login or Signup to answer a question", targetLang))
             navigate('/Auth')
         }else{
             if(answer===""){
-                alert("Enter an answer before submitting")
+                alert(staticTranslator("Enter an answer before submitting", targetLang))
             }else{
                 dispatch(postanswer({id,
                     noofanswers:answerlength+1,
@@ -37,7 +39,7 @@ const Qustiondetails = () => {
     }
     const handleshare=()=>{
         copy(url + location.pathname);
-        alert("Copied url :" + url + location.pathname)
+        alert(staticTranslator("Copied url :", targetLang) + url + location.pathname)
     }
 
     const handledelete=()=>{
@@ -45,7 +47,7 @@ const Qustiondetails = () => {
     }
     const handleupvote=()=>{
         if(user=== null){
-            alert("Login or Signup to answer a question")
+            alert(staticTranslator("Login or Signup to answer a question", targetLang))
             navigate('/Auth')
         }else{
             dispatch(votequestion(id,"upvote"))
@@ -53,7 +55,7 @@ const Qustiondetails = () => {
     }
     const handledownvote=()=>{
         if(user=== null){
-            alert("Login or Signup to answer a question")
+            alert(staticTranslator("Login or Signup to answer a question", targetLang))
             navigate('/Auth')
         }else{
             dispatch(votequestion(id,"downvote"))
@@ -85,14 +87,14 @@ const Qustiondetails = () => {
                                 <div className="question-actions-user">
                                     <div>
                                         <button type='button' onClick={handleshare}>
-                                            Share
+                                            {staticTranslator("Share", targetLang)}
                                         </button>
                                         {user?.result?._id ===question?.userid && (
                                             <button type='button' onClick={handledelete}>Delete</button>
                                         )}
                                     </div>
                                     <div>
-                                        <p>Asked {moment(question.askedon).fromNow()}</p>
+                                        <p>{staticTranslator("Asked", targetLang)} {moment(question.askedon).fromNow()}</p>
                                         <Link to={`Users/${question.userid}`} className='user-limk' style={{color:"#0086d8"}}>
                                         <Avatar backgroundColor="orange" px="8px" py="5px" borderRadius="4px">
                                             {question.userposted.charAt(0).toUpperCase()}
@@ -106,12 +108,12 @@ const Qustiondetails = () => {
                     </section>
                     {question.noofanswers !== 0 && (
                         <section>
-                            <h3>{question.noofanswers} Answers</h3>
+                            <h3>{question.noofanswers} {staticTranslator("Answers", targetLang)}</h3>
                             <Displayanswer key={question._id} question={question} handleshare={handleshare}/>
                         </section>
                     )}
                     <section className="post-ans-container">
-                        <h3>Your Answer</h3>
+                        <h3>{staticTranslator("Your Answer", targetLang)}</h3>
                         <form onSubmit={(e)=>{
                             handlepostans(e,question.answer.length)
                         }}>
@@ -119,7 +121,7 @@ const Qustiondetails = () => {
                         <br />
                         <input type="submit" className="post-ans-btn" value="Post your Answer"/>
                         </form>
-                        <p>Browse other Question tagged
+                        <p>{staticTranslator("Browse other Question tagged", targetLang)}
                             {question.questiontags.map((tag)=>(
                                 <Link to="/Tags" key={tag} className='ans-tag'>
                                     {" "}
@@ -129,7 +131,7 @@ const Qustiondetails = () => {
                             or 
                             <Link to="/Askquestion" style={{textDecoration:"none",color:"#009dff"}}>
                             {" "}
-                            Ask your own question
+                            {staticTranslator("Ask your own question", targetLang)}
                             </Link>
                         </p>
                     </section>
