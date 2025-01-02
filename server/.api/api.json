@@ -1,0 +1,11 @@
+{
+  "version": "1.0",
+  "apis": [
+    {
+      "identifier": "telesign-enterprise",
+      "source": "@telesign-enterprise/v1.0#ja01dm4x08ua1",
+      "integrity": "sha512-D4ZpQS8JNQ90fZCa64cYwPVmSO6RMk0GAB1+7ZpBAe+szIBQzxndmJgleW07yqaa29dGOnP3VK9YKPuubpaRRw==",
+      "installerVersion": "6.1.2"
+    }
+  ]
+}

@@ -93,5 +93,15 @@
   "Android is Google's mobile operating system, used for programming or developing digital devices (Smartphones, Tablets, Automobiles, TVs, Wear, Glass, IoT).": "Android is Google's mobile operating system, used for programming or developing digital devices (Smartphones, Tablets, Automobiles, TVs, Wear, Glass, IoT).",
   "Add a comment...": "Add a comment...",
   "Enter your email address to receive verification code": "Enter your email address to receive verification code",
-  "Enter the verification code sent to": "Enter the verification code sent to"
+  "Enter the verification code sent to": "Enter the verification code sent to",
+  "Phone number": "Phone number",
+  "Send Verification Code": "Send Verification Code",
+  "Verify Your Identity": "Verify Your Identity",
+  "Enter your phone number to receive verification code": "Enter your phone number to receive verification code",
+  "Sending...": "Sending...",
+  "Failed to send OTP. Please try again.": "Failed to send OTP. Please try again.",
+  "Enter OTP": "Enter OTP",
+  "Verify": "Verify",
+  "Verifying...": "Verifying...",
+  "Invalid OTP. Please try again.": "Invalid OTP. Please try again."
 }

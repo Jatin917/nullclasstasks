@@ -1,6 +1,10 @@
 // const nodemailer = require("nodemailer");
 import nodemailer from 'nodemailer'
+import twilio from 'twilio'
+import TelesignSDK from 'telesignenterprisesdk'
+
 const otpStorage = new Map();
+const client = new twilio(process.env.ACCOUNT_SID, process.env.ACCOUNT_AUTH_TOKEN);
 
 
 const transporter = nodemailer.createTransport({
@@ -35,22 +39,69 @@ const sendOtpEmail = async (email, otp) => {
 };
 
 
-const generateOtpAndSend = async(email) => {
+const generateOtp = (userid) => {
   try {
     const otp = Math.floor(100000 + Math.random() * 900000);
-    otpStorage.set(email, { otp, expiresAt: Date.now() + 300000 });
-    console.log(otpStorage);
-    const response = await sendOtpEmail(email, otp);
-    return response;
+    otpStorage.set(userid, { otp, expiresAt: Date.now() + 300000 });
+    return otp;
   } catch (error) {
     console.log(error.message);
     return false;
   }
 }
-export const sendOtpController = async(req, res) =>{
+
+
+const sendOtpSms = async (number, otp) => {
   try {
-    const email = req.body.email;
-    const status = await generateOtpAndSend(email);
+    const customerId = process.env.CUSTOMER_ID;
+    const apiKey = process.env.TELESIGN_API_KEY;
+    const phoneNumber = number;
+    const verifyCode = otp; // Generates OTP
+
+    const params = {
+      verify_code: verifyCode,
+      sender_id: process.env.SENDER_ID || "DefaultSender", // Use env variable or fallback
+    };
+
+    const client = new TelesignSDK(customerId, apiKey);
+
+    const smsPromise = new Promise((resolve, reject) => {
+      client.verify.sms((error, responseBody) => {
+        if (error) {
+          reject(`Unable to send message: ${error}`);
+        } else {
+          resolve(responseBody);
+        }
+      }, phoneNumber, params);
+    });
+
+    const response = await smsPromise;
+    console.log("SMS sent successfully:", response);
+    return { success: true, otp: verifyCode }; // Return OTP for storage/verification
+
+  } catch (error) {
+    console.error("Error sending OTP:", error.message);
+    return { success: false, message: error.message };
+  }
+};
+export const sendOtpEmailController = async(req, res) =>{
+  try {
+    const email = req.body.userId;
+    const otp = generateOtp(email);
+    const status = await sendOtpEmail(email, otp);
+    if(status){
+      return res.status(200).json({message:"OTP sent successfully"})
+    }
+    return res.status(401).json({message:"failed to send otp"});
+  } catch (error) {
+    res.status(500).json({message:error.message});
+  }
+}
+export const sendOtpSmsController = async(req, res) =>{
+  try {
+    const phoneNumber = req.body.userId;
+    const otp = generateOtp(phoneNumber);
+    const status = await sendOtpSms(phoneNumber, otp);
     if(status){
       return res.status(200).json({message:"OTP sent successfully"})
     }
@@ -63,11 +114,11 @@ export const sendOtpController = async(req, res) =>{
 export const emailVerificationController = async (req, res) =>{
   try {
     const receivedOtp = req.body.otp;
-    const email = req.body.email;
-    const storedOtp = otpStorage.get(email);
+    const userId = req.body.userId;
+    const storedOtp = otpStorage.get(userId);
     if (storedOtp && storedOtp.otp=== Number(receivedOtp) && Date.now() < storedOtp.expiresAt) {
       console.log("OTP is valid!");
-      otpStorage.delete(email);
+      otpStorage.delete(userId);
       return res.status(200).json({message: "OTP verified successfully" });
     }
     return res.status(401).json({message:"Otp expired or invalid"})

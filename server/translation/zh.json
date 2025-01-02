@@ -77,5 +77,11 @@
   "Enter OTP": "输入 OTP",
   "Verify": "核实",
   "Verifying...": "正在验证…",
-  "Invalid OTP. Please try again.": "OTP 无效。请重试。"
+  "Invalid OTP. Please try again.": "OTP 无效。请重试。",
+  "Featured on Meta": "在 Meta 上精选",
+  "What is the best course of action when a user has high enough rep to...": "当用户的声誉足够高时，最好的行动方案是什么？",
+  "pizza ki yaad aa rhi hain bhaaii": "披萨 ki yaad aa rhi hain bhaaii",
+  "Enter your phone number to receive verification code": "输入您的电话号码以接收验证码",
+  "Phone number": "电话号码",
+  "Failed to send OTP. Please try again.": "无法发送 OTP。请重试。"
 }
