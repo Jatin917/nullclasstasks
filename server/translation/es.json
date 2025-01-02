@@ -54,5 +54,8 @@
   "Sent Requests": "Solicitudes enviadas",
   "Pending Requests": "Solicitudes pendientes",
   "Is a link to the \"How to ask\" help page a useful comment?": "¿Es un comentario útil un enlace a la página de ayuda \"Cómo preguntar\"?",
-  "Jatin Chandel": "Lámpara de araña Jatin"
+  "Jatin Chandel": "Lámpara de araña Jatin",
+  "Add a comment...": "Añadir un comentario...",
+  "How to implement a binary search algorithm in Python?": "Cómo implementar un algoritmo de búsqueda binaria en Python",
+  "I am trying to implement a binary search algorithm in Python but I am stuck. Can someone provide a simple example and explanation?": "Estoy intentando implementar un algoritmo de búsqueda binaria en Python, pero no lo consigo. ¿Alguien puede proporcionar un ejemplo sencillo y una explicación?"
 }

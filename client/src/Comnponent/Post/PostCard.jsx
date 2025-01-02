@@ -6,8 +6,10 @@ import LikeComponent from './LikeComponent';
 import CommentComponent from './CommentComponent';
 import CommentDisplay from './CommentDisplay';
 import ShareDialog from './ShareDialog';
+import { staticTranslator } from '../../services';
 
 const PostCard = ({ post, cardStyles }) => {
+  const targetLang = localStorage.getItem("lang") || "";
   const [isLiked, setIsLiked] = useState(false);
   const [showAllComments, setShowAllComments] = useState(false);
 
@@ -22,7 +24,7 @@ const PostCard = ({ post, cardStyles }) => {
   }
 
   if (!post) {
-    return <p>No post data available.</p>;
+    return <p>{staticTranslator("No post data available.", targetLang)}</p>;
   }
 
 
@@ -93,9 +95,9 @@ const PostCard = ({ post, cardStyles }) => {
           <div className="flex justify-between items-center mb-4 text-sm">
             <div className="flex items-center gap-2">
             <ShareDialog postId={post._id} postTitle={post.title} />
-              <span className="text-gray-500">Share</span>
+              <span className="text-gray-500">{staticTranslator("Share", targetLang)}</span>
               <MessageCircle size={16} className="ml-4 text-gray-500" />
-              <span className="text-gray-500">{post.comments?.length || 0} comments</span>
+              <span className="text-gray-500">{post.comments?.length || 0} {staticTranslator("comments", targetLang)}</span>
             </div>
             <div className="flex items-center gap-2 bg-blue-50 px-3 py-2 rounded">
               <img
@@ -108,7 +110,7 @@ const PostCard = ({ post, cardStyles }) => {
                   {post.user_id.name}
                 </Link>
                 <div className="text-xs text-gray-500">
-                  asked {formatDateWithWeekday(post.created_at)}
+                  {staticTranslator("asked", targetLang)} {formatDateWithWeekday(post.created_at)}
                 </div>
               </div>
             </div>

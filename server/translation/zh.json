@@ -65,5 +65,17 @@
   "Outdated Answers: accepted answer is now unpinned on Stack Overflow": "过时的答案：已接受的答案现在已在 Stack Overflow 上取消置顶",
   "I am trying to implement a binary search algorithm in Python but I am stuck. Can someone provide a simple example and explanation?": "我正在尝试用 Python 实现二分搜索算法，但遇到了困难。有人可以提供一个简单的示例和解释吗",
   "How to implement a binary search algorithm in Python?": "如何在 Python 中实现二分搜索算法",
-  "Jatin Chandel": "贾廷·尚德尔"
+  "Jatin Chandel": "贾廷·尚德尔",
+  "Forgot Password?": "忘记密码",
+  "Don't have an account": "没有账户",
+  "Email address": "电子邮件",
+  "Enter your email address to receive verification code": "输入您的电子邮件地址以接收验证码",
+  "Send Verification Code": "发送验证码",
+  "Verify Your Identity": "验证您的身份",
+  "Sending...": "正在发送...",
+  "Enter the verification code sent to": "输入发送至的验证码",
+  "Enter OTP": "输入 OTP",
+  "Verify": "核实",
+  "Verifying...": "正在验证…",
+  "Invalid OTP. Please try again.": "OTP 无效。请重试。"
 }

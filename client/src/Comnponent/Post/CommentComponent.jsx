@@ -40,7 +40,7 @@ const [newComment, setNewComment] = useState('');
           type="text"
           value={newComment}
           onChange={(e) => setNewComment(e.target.value)}
-          placeholder="Add a comment..."
+          placeholder={staticTranslator("Add a comment...", targetLang)}
           className="w-full px-3 py-1 bg-gray-50 rounded-full text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
         />
         <button onClick={()=>handleComment(postId, newComment)} className="absolute right-2 top-1/2 -translate-y-1/2 text-blue-500 hover:text-blue-600">

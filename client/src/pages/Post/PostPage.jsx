@@ -5,9 +5,11 @@ import Leftsidebar from "../../Comnponent/Leftsidebar/Leftsidebar";
 import { useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { translator } from "../../action/translator";
+import { staticTranslator } from "../../services";
 
 const PostPage = ({slidein}) => {
-  const posts = useSelector((state)=> state.translatedPostDataReducer);  
+  const posts = useSelector((state)=> state.translatedPostDataReducer); 
+  const targetLang = localStorage.getItem("lang"); 
   console.log("updated post", posts);
   return (
     <div className="flex min-h-[calc(100vh-100px)] max-w-[1250px] mx-auto">
@@ -25,7 +27,7 @@ const PostPage = ({slidein}) => {
             ))
           ) : (
             <div className="flex justify-center items-center h-32 bg-white rounded-lg border border-gray-200">
-              <p className="text-gray-600">No posts available</p>
+              <p className="text-gray-600">{staticTranslator("No posts available", targetLang)}</p>
             </div>
           )}
         </div>

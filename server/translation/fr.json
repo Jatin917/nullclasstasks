@@ -74,5 +74,17 @@
   "Loading...": "Chargement...",
   "What is the best course of action when a user has high enough rep to...": "Quelle est la meilleure marche à suivre lorsqu'un utilisateur a une réputation suffisamment élevée pour...",
   "votes": "votes",
-  "answers": "réponses"
+  "answers": "réponses",
+  "Don't have an account": "Je n'ai pas de compte",
+  "pizza ki yaad aa rhi hain bhaaii": "pizza ki yaad aa rhi hain bhaaii",
+  "Enter your email address to receive verification code": "Entrez votre adresse e-mail pour recevoir le code de vérification",
+  "Verify Your Identity": "Vérifiez votre identité",
+  "Email address": "Adresse email",
+  "Send Verification Code": "Envoyer le code de vérification",
+  "Sending...": "Envoi...",
+  "Enter OTP": "Entrez OTP",
+  "Verify": "Vérifier",
+  "Enter the verification code sent to": "Entrez le code de vérification envoyé à",
+  "Verifying...": "Vérification...",
+  "Invalid OTP. Please try again.": "OTP non valide. Veuillez réessayer."
 }
