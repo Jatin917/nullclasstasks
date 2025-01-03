@@ -16,6 +16,10 @@
   }
   
   .tag {
+    /* width: 400px; */
+    /* overflow: hidden; */
+    height: fit-content;
+    max-width: 30%;
     padding: 10px;
     border: solid 1px #d2d2d2;
     border-radius: 2px;
@@ -30,6 +34,8 @@
   }
   
   .tag p {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
     font-size: 14px;
     color: #323232;
     line-height: 17px;

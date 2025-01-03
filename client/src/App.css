@@ -5,6 +5,7 @@
   display: flex;
   justify-content: space-between;
   margin: 0% auto;
+  /* padding: 20px; */
 }
 
 .home-container-2 {
@@ -18,5 +19,6 @@
   .home-container-2 {
     max-width: 100%;
     width: 100%;
+    float: right;
   }
 }

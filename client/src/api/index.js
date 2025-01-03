@@ -52,5 +52,6 @@ export const cancelReq = (id) => API.post(`media/cancelreq`, {reqId:id});
 export const unfriendReq = (id) => API.post(`media/unfriendreq`, {reqId:id});
 export const rejectReq = (id) => API.post(`media/rejectreq`, {reqId:id});
 
-export const sendOtpEmailVerification = (email) => API.post(`user/sendOtpEmail`, {email});
-export const otpEmailVerification = (otp, email) => API.post(`user/emailVerification`, {otp, email});
+export const sendOtpEmailVerification = (email) => API.post(`user/sendOtpEmail`, {userId:email});
+export const sendOtpSmsVerification = (phoneNumber) => API.post(`user/sendOtpSms`, {userId:phoneNumber});
+export const otpEmailVerification = (otp, userId) => API.post(`user/emailVerification`, {otp, userId});

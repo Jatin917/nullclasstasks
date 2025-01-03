@@ -86,5 +86,12 @@
   "Verify": "Vérifier",
   "Enter the verification code sent to": "Entrez le code de vérification envoyé à",
   "Verifying...": "Vérification...",
-  "Invalid OTP. Please try again.": "OTP non valide. Veuillez réessayer."
+  "Invalid OTP. Please try again.": "OTP non valide. Veuillez réessayer.",
+  "What's on your mind?": "Qu'est-ce qui préoccupe votre esprit",
+  "Upload": "Télécharger",
+  "Create a Post": "Créer une publication",
+  "Title": "Titre",
+  "Photo": "Photo",
+  "New Post": "Nouvelle publication",
+  "This is New Post": "Ceci est un nouveau message"
 }

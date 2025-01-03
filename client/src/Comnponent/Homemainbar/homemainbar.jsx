@@ -27,7 +27,7 @@ function Homemainbar() {
         ) : (
           <h1>{staticTranslator('All Question', targetLang)}</h1>
         )}
-        <button className="ask-btn" onClick={checkauth}>{staticTranslator('Ask Question', targetLang)}</button>
+        <button style={{border:"none", outline:"none"}} className="ask-btn" onClick={checkauth}>{staticTranslator('Ask Question', targetLang)}</button>
       </div>
       <div>
         {questionlist.data === null ? (

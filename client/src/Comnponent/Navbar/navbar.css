@@ -41,6 +41,7 @@
   .navbar .navbar-2 {
     display: flex;
     align-items: center;
+    gap: 10px;
   }
   
   .nav-logo {
@@ -91,11 +92,15 @@
   }
   
   .nav-links {
-    padding: 7px 13px;
+    padding: 9px 20px;
     border: solid 1px blue;
+    border: none;
+    /* outline: none; */
     border-radius: 3px;
-    background-color: #e7f8fe;
+    background-color: #1946571f;
     cursor: pointer;
+    text-decoration: none;
+    color: black;
   }
   
   .nav-links:hover {

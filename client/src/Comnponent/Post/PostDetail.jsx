@@ -1,23 +1,21 @@
-import React, { useState } from 'react';
-import { ChevronUp, ChevronDown, Share2, } from 'lucide-react';
+import React, { useDebugValue, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import sampleUser from '../../assets/SampleUser.png';
 import Leftsidebar from '../Leftsidebar/Leftsidebar';
 import CommentComponent from './CommentComponent';
 import CommentDisplay from './CommentDisplay';
 import LikeComponent from './LikeComponent';
 import ShareDialog from './ShareDialog';
-
+import { staticTranslator } from '../../services';
+import './postDetail.css'
 const PostDetail = ({ slidein }) => {
+  const targetLang = localStorage.getItem("lang");
   const { id } = useParams();
-  const posts = useSelector((state) => state.translatedDataReducer);
+  const posts = useSelector((state) => state.translatedPostDataReducer);
   const post = posts.filter((p) => p._id === id)[0];
   const [isLiked, setIsLiked] = useState(false);
   const [showAllComments, setShowAllComments] = useState(false);
-
-  const handleLike = () => setIsLiked(!isLiked);
-
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -31,86 +29,95 @@ const PostDetail = ({ slidein }) => {
   };
 
   return (
-    <div className="flex min-h-[calc(100vh-100px)] max-w-[1250px] mx-auto">
+    <div className="container">
       <Leftsidebar slidein={slidein} />
-
+  
       {/* Main Content Area */}
-      <div className="flex-1 mt-[60px] p-6">
-        <div className="max-w-4xl mx-auto">
+      <div className="main-content">
+        <div className="content-wrapper">
           {/* Question Header */}
-          <div className="mb-6">
-            <h1 className="text-2xl font-medium text-gray-900 mb-2">{post.title}</h1>
-            <div className="flex items-center gap-4 text-sm text-gray-600">
-              <span>Asked {formatDate(post.created_at)}</span>
-              <span>Viewed {post.views || 0} times</span>
+          <div className="question-header">
+            <h1 className="post-title">{post.title}</h1>
+            <div className="meta-info">
+              <span>{staticTranslator("Asked", targetLang)} {formatDate(post.created_at)}</span>
+              <span>{staticTranslator("Viewed", targetLang)} {post.views || 0} {staticTranslator("times", targetLang)}</span>
             </div>
           </div>
-
+  
           {/* Main Grid */}
-          <div className="grid grid-cols-12 gap-4">
+          <div className="grid-container">
             {/* Voting Column */}
-            <div className="col-span-1 flex flex-col items-center pt-2">
+            <div className="voting-column">
               <LikeComponent post={post} isLiked={isLiked} setIsLiked={setIsLiked} />
               <ShareDialog postId={post._id} postTitle={post.title} />
             </div>
-
+  
             {/* Main Content Column */}
-            <div className="col-span-11">
+            <div className="content-column">
               {/* Post Content */}
-              <div className="mb-6">
-                <div className="prose max-w-none mb-4">
-                  <p className="text-gray-800">{post.content}</p>
+              <div className="post-content">
+                <div className="text-content">
+                  <p>{post.content}</p>
                 </div>
-                
+  
                 {/* Media Content */}
                 {post.media_url && (
-                  <div className="my-4 border rounded-lg overflow-hidden">
-                    <img
+                  <div className="media-content">
+                    {post.media_type === "photo" && (
+                     <img
                       src={post.media_url}
                       alt={post.title}
-                      className="w-full h-auto max-h-[500px] object-contain bg-gray-50"
+                      className="media-image"
                     />
+                    )}
+                  {post.media_type === "video" && (
+                  <video
+                    src={post.media_url}
+                    alt={post.title}
+                    className="media-image"
+                    controls
+                    controlsList="nofullscreen"
+                  />
+                )}
                   </div>
                 )}
-
+  
                 {/* Tags */}
-                <div className="flex flex-wrap gap-2 mb-4 mt-6">
+                <div className="tags-container">
                   {post.tags?.map((tag, index) => (
-                    <span key={index} className="px-2 py-1 bg-blue-50 text-blue-600 rounded-md text-sm">
+                    <span key={index} className="tag">
                       {tag}
                     </span>
                   )) || null}
                 </div>
-
+  
                 {/* User Card */}
-                <div className="flex justify-end mt-8">
-                  <div className="bg-blue-50 px-4 py-2 rounded w-48">
-                    <div className="text-xs text-gray-600 mb-2">
-                      Asked {formatDate(post.created_at)}
+                <div className="user-card">
+                  <div className="user-card-container">
+                    <div className="user-meta">
+                      {staticTranslator("Asked", targetLang)} {formatDate(post.created_at)}
                     </div>
-                    <div className="flex items-center gap-2">
+                    <div className="user-info">
                       <img
                         src={post.user_id?.profilePicture || sampleUser}
                         alt="Profile"
-                        className="w-8 h-8 rounded"
+                        className="profile-picture"
                       />
-                      <div>
-                        <div className="text-sm font-medium text-blue-600">
-                          {post.user_id?.name}
-                        </div>
+                      <div className="user-name">
+                        <span>{post.user_id?.name}</span>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-
+  
               {/* Comments Section */}
-              <div className="mt-6 border-t pt-4">
-                <h2 className="text-lg font-medium mb-4">
-                  {post.comments?.length || 0} Comments
+              <div className="comments-section">
+                <h2 className="comments-header">
+                  {post.comments?.length || 0} {staticTranslator("Comments", targetLang)}
                 </h2>
-                <CommentDisplay post={post} showAllComments={showAllComments} setShowAllComments={setShowAllComments}/>
-                <div className="mt-4">
+                <CommentDisplay post={post} showAllComments={showAllComments} setShowAllComments={setShowAllComments} />
+                <div className="comment-input">
                   <CommentComponent postId={id} />
                 </div>
               </div>
@@ -118,16 +125,9 @@ const PostDetail = ({ slidein }) => {
           </div>
         </div>
       </div>
-
-      {/* Optional Right Sidebar */}
-      <div className="hidden xl:block w-64 mt-[60px] p-4 border-l border-gray-200">
-        <div className="sticky top-[60px]">
-          <h3 className="text-sm font-medium mb-2">Related Questions</h3>
-          {/* Add related questions here */}
-        </div>
-      </div>
     </div>
   );
+  
 };
 
 export default PostDetail;

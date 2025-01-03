@@ -1,9 +1,9 @@
 import React from 'react'
 import Leftsidebar from '../../Comnponent/Leftsidebar/Leftsidebar'
 import Taglist from './Taglist'
-import './Tags.css'
 import {tagsList} from './tagslist'
 import { staticTranslator } from '../../services'
+import './Tags.css'
 const Tags = ({slidein}) => {
     const targetLang = localStorage.getItem("lang");
   return (
@@ -17,7 +17,7 @@ const Tags = ({slidein}) => {
         <p className="tags-p">
             {staticTranslator("Using the right tags makes it easier for others to find and answer your question", targetLang)}
         </p>
-        <div className="tags-list-container">
+        <div className="tags-list-container" style={{display:"flex", flexWrap:"wrap" }}>
             {tagsList.map((tag,index)=>(
                 <Taglist tag={tag} key={index}/>
             ))}

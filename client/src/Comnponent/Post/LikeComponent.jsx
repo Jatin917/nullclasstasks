@@ -55,31 +55,70 @@ const LikeComponent = ({post, isLiked, setIsLiked }) => {
     }
     setIsLiked(false);
   }
+  const styles = {
+    button: {
+      base: {
+        padding: "0.25rem",
+        borderRadius: "0.25rem",
+        transition: "background-color 0.15s ease-in-out",
+        border:"none",
+        outline:"none",
+        backgroundColor:"inherit",
+      },
+      active: {
+        color: "orange",
+        border:"none",
+        outline:"none",
+        backgroundColor:"inherit",
+        cursor: "not-allowed",
+        // backgroundColor: "rgba(0, 0, 0, 0.02)", // hover effect
+      },
+      inactive: {
+        border:"none",
+        outline:"none",
+        backgroundColor:"inherit",
+        color: "gray",
+        cursor: "pointer",
+        // backgroundColor: "rgba(0, 0, 0, 0.02)", // hover effect
+      },
+    },
+    count: {
+      base: {
+        fontSize: "1.25rem",
+        fontWeight: "500",
+        margin: "0.5rem 0",
+      },
+    },
+  };
+  
   return (
     <>
       <button
-        onClick={()=>handleLike(post?._id)}
+        onClick={() => handleLike(post?._id)}
         disabled={isLiked}
-        className={`p-1 hover:bg-gray-100 rounded ${
-          isLiked ? "text-orange-500 cursor-not-allowed" : "text-gray-500 cursor-pointer"
-        }`}
+        style={{
+          ...styles.button.base,
+          ...(isLiked ? styles.button.active : styles.button.inactive),
+        }}
       >
         <ChevronUp size={36} />
       </button>
-      <span className="text-xl font-medium my-2">
-        {post?.likes?.length || 0}
-      </span>
-      <button 
-        onClick={()=>handleUnLike(post._id)} 
+  
+      <span style={styles.count.base}>{post?.likes?.length || 0}</span>
+  
+      <button
+        onClick={() => handleUnLike(post._id)}
         disabled={!isLiked}
-        className={`p-1 hover:bg-gray-100 rounded ${
-            !isLiked ? "text-orange-500 cursor-not-allowed" : "text-gray-500 cursor-pointer"
-          }`}
+        style={{
+          ...styles.button.base,
+          ...(!isLiked ? styles.button.active : styles.button.inactive),
+        }}
       >
         <ChevronDown size={36} />
       </button>
     </>
   );
+  
 };
 
 export default LikeComponent;

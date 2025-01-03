@@ -10,13 +10,13 @@ const client = new twilio(process.env.ACCOUNT_SID, process.env.ACCOUNT_AUTH_TOKE
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
   port: 587,
-  secure: false, // true for port 465, false for other ports
+  secure: false,
   auth: {
     user: process.env.SMTP_EMAIL,
     pass: process.env.SMTP_PASSWORD,
   },
   tls: {
-    rejectUnauthorized: false, // Ignore self-signed certificate errors
+    rejectUnauthorized: false,
   },
 });
 

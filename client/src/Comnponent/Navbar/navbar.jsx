@@ -11,7 +11,6 @@ import {jwtDecode} from "jwt-decode";
 import sampleUser from "../../assets/SampleUser.png";
 import { staticTranslator } from "../../services";
 import LanguageVerificationModal from "./LanguageVerificationModal";
-import { otpEmailVerification } from "../../api";
 
 function Navbar({ handleslidein, targetLang, setTargetLang }) {
   const languages = {
@@ -91,7 +90,7 @@ function Navbar({ handleslidein, targetLang, setTargetLang }) {
             ) : (
               <>
                 <div className="my-auto h-full">
-                  <Link to={`/Users/${User?.result?._id}`}>
+                  <Link style={{border:"none"}} to={`/Users/${User?.result?._id}`}>
                     <img
                       className="w-[40px] h-[40px] rounded-full m-auto"
                       src={currentuser?.profilePicture || sampleUser}
@@ -106,7 +105,7 @@ function Navbar({ handleslidein, targetLang, setTargetLang }) {
                   </Link>
                 </div>
                 <button className="nav-tem nav-links" onClick={handlelogout}>
-                  {staticTranslator('logout', targetLang)}
+                  {staticTranslator('Logout', targetLang)}
                 </button>
                 <Link to={"/addpost"} className="nav-tem nav-links">
                   {staticTranslator('post', targetLang)}
@@ -140,6 +139,7 @@ function Navbar({ handleslidein, targetLang, setTargetLang }) {
         // onVerify={handleVerification}
         onLanguageChange={handleLanguageChange}
         currentLanguage={targetLang}
+        pendingLanguage={pendingLanguage}
       />
     </>
   );

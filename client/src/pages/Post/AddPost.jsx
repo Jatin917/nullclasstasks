@@ -4,8 +4,11 @@ import Leftsidebar from '../../Comnponent/Leftsidebar/Leftsidebar';
 import { useDispatch } from 'react-redux';
 import { createPost } from '../../action/post';
 import { useNavigate } from 'react-router-dom';
+import './addPost.css'
+import { staticTranslator } from '../../services';
 
 const CreatePost = ({slidein}) => {
+  const targetLang = localStorage.getItem("lang") || "";
     const [mediaType, setMediaType] = useState('photo');
     const [media, setMedia] = useState(null);
     const [preview, setPreview] = useState(null);
@@ -37,107 +40,108 @@ const CreatePost = ({slidein}) => {
         setTitle('')
         setMediaType('photo')
     }
-  return (
-    <div className="flex min-h-[calc(100vh-100px)] max-w-[1250px] mx-auto">
-      <Leftsidebar slidein={slidein} />
-      <div className="flex-1 max-w-2xl mx-auto mt-[100px] p-6">
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200">
-          <div className="p-6">
-            <h2 className="text-xl font-semibold mb-6">Create a Post</h2>
-            
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <input
-                type="text"
-                value={title}
-                onChange={(e)=>setTitle(e.target.value)}
-                placeholder="Title"
-                className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-
-              <textarea
-                value={content}
-                onChange={(e)=>setContent(e.target.value)}
-                placeholder="What's on your mind?"
-                rows="4"
-                className="w-full p-3 border border-gray-200 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
-              ></textarea>
-
-              <div className="flex gap-4 border-b border-gray-200 pb-4">
-                <button
-                  type="button"
-                  onClick={() => setMediaType('photo')}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-lg ${
-                    mediaType === 'photo' ? 'bg-blue-50 text-blue-600' : 'text-gray-600'
-                  }`}
-                >
-                  <ImagePlus size={20} />
-                  <span>Photo</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setMediaType('video')}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-lg ${
-                    mediaType === 'video' ? 'bg-blue-50 text-blue-600' : 'text-gray-600'
-                  }`}
-                >
-                  <VideoIcon size={20} />
-                  <span>Video</span>
-                </button>
-              </div>
-
-              {!preview ? (
-                <div className="border-2 border-dashed border-gray-300 rounded-lg p-8">
-                  <label className="flex flex-col items-center cursor-pointer">
-                    {mediaType === 'photo' ? <ImagePlus className="w-12 h-12 text-gray-400" /> : <VideoIcon className="w-12 h-12 text-gray-400" />}
-                    <span className="mt-2 text-sm text-gray-500">Upload {mediaType === 'photo' ? 'an image' : 'a video'}</span>
-                    <input
-                      type="file"
-                      accept={mediaType === 'photo' ? 'image/*' : 'video/*'}
-                      className="hidden"
-                      onChange={handleMediaChange}
-                    />
-                  </label>
-                </div>
-              ) : (
-                <div className="relative">
-                  {mediaType === 'photo' ? (
-                    <img
-                      src={preview}
-                      alt="Preview"
-                      className="w-full h-64 object-cover rounded-lg"
-                    />
-                  ) : (
-                    <video
-                      src={preview}
-                      controls
-                      className="w-full h-64 object-cover rounded-lg"
-                    />
-                  )}
+    return (
+      <div className="container">
+        <Leftsidebar slidein={slidein} />
+        <div className="main-content">
+          <div className="card">
+            <div className="card-header">
+              <h2 className="card-title">{staticTranslator("Create a Post", targetLang)}</h2>
+              <form onSubmit={handleSubmit} className="form">
+                <input
+                  type="text"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  placeholder={staticTranslator("Title", targetLang)}
+                  className="input"
+                />
+    
+                <textarea
+                  value={content}
+                  onChange={(e) => setContent(e.target.value)}
+                  placeholder={staticTranslator("What's on your mind?", targetLang)}
+                  rows="4"
+                  className="textarea"
+                ></textarea>
+    
+                <div className="media-buttons">
                   <button
                     type="button"
-                    onClick={() => {
-                      setMedia(null);
-                      setPreview(null);
-                    }}
-                    className="absolute top-2 right-2 p-1 bg-gray-800 rounded-full text-white hover:bg-gray-700"
+                    onClick={() => setMediaType("photo")}
+                    className={`media-button ${
+                      mediaType === "photo" ? "media-button-active" : ""
+                    }`}
                   >
-                    <X size={20} />
+                    <ImagePlus size={20} />
+                    <span>{staticTranslator("Photo", targetLang)}</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setMediaType("video")}
+                    className={`media-button ${
+                      mediaType === "video" ? "media-button-active" : ""
+                    }`}
+                  >
+                    <VideoIcon size={20} />
+                    <span>Video</span>
                   </button>
                 </div>
-              )}
-
-              <button
-                type="submit"
-                className="w-full bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                Post
-              </button>
-            </form>
+    
+                {!preview ? (
+                  <div className="upload-container">
+                    <label className="upload-label">
+                      {mediaType === "photo" ? (
+                        <ImagePlus className="upload-icon" />
+                      ) : (
+                        <VideoIcon className="upload-icon" />
+                      )}
+                      <span>{staticTranslator("Upload", targetLang)} {mediaType === "photo" ? "an image" : "a video"}</span>
+                      <input
+                        type="file"
+                        accept={mediaType === "photo" ? "image/*" : "video/*"}
+                        className="hidden"
+                        onChange={handleMediaChange}
+                      />
+                    </label>
+                  </div>
+                ) : (
+                  <div className="relative">
+                    {mediaType === "photo" ? (
+                      <img
+                        src={preview}
+                        alt="Preview"
+                        className="preview-image"
+                      />
+                    ) : (
+                      <video
+                        src={preview}
+                        controls
+                        className="preview-video"
+                      />
+                    )}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setMedia(null);
+                        setPreview(null);
+                      }}
+                      className="remove-button"
+                    >
+                      <X size={20} />
+                    </button>
+                  </div>
+                )}
+    
+                <button type="submit" className="submit-button">
+                  {staticTranslator("Post", targetLang)}
+                </button>
+              </form>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  );
+    );
+    
 };
 
 export default CreatePost;

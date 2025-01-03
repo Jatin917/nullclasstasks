@@ -10,11 +10,6 @@ export const tagsList = [
         "Python is a multi-paradigm, dynamically typed, multipurpose programming language. It is designed to be quick to learn, understand, and use, and enforces a clean and uniform syntax.",
     },
     {
-      tagName: "c#",
-      tagDesc:
-        "C# (pronounced 'see sharp') is a high level, statically typed, multi-paradigm programming language developed by Microsoft",
-    },
-    {
       tagName: "java",
       tagDesc:
         "Java is a high-level object oriented programming language. Use this tag when you're having problems using or understanding the language itself. ",
