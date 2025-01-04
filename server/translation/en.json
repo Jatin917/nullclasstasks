@@ -130,5 +130,6 @@
   "Copied!": "Copied!",
   "times": "times",
   "Cancel": "Cancel",
-  "Enter your phone number with country code to receive verification code": "Enter your phone number with country code to receive verification code"
+  "Enter your phone number with country code to receive verification code": "Enter your phone number with country code to receive verification code",
+  "Authentication failed. Please try again.": "Authentication failed. Please try again."
 }
