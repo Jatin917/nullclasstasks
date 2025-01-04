@@ -13,7 +13,7 @@ function Homemainbar() {
   console.log("questionlist ", questionlist);
   const checkauth = () => {
     if (user === null) {
-      alert(staticTranslator("alertMsgLogin", targetLang));
+      alert(staticTranslator("You need to signup or login first", targetLang));
       navigate("/Auth")
     } else {
       navigate("/Askquestion")

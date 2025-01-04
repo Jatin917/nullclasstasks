@@ -4,6 +4,12 @@ const postReducer =(states=[],action)=>{
             return action.payload;
         case "FETCH_POST":
             const posts = states;
+            const id = action.payload.id;
+            for(let i = 0;i<posts?.length;i++){
+                if(id===posts[i]?._id){
+                    return posts;
+                }
+            }
             posts.push(action.payload);
             return posts;
         case "CHANGE_POST_STAT":

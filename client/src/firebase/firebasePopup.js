@@ -46,7 +46,7 @@ export const authenticationRedirect = async () => {
 export const handleRedirectResult = async() => {
     try {
         const result = await getRedirectResult(auth);
-        console.log("result for redirect is ", result)
+        // console.log("result for redirect is ", result)
         if (result) {
           // This gives you a Google Access Token. You can use it to access Google APIs.
           const credential = GoogleAuthProvider.credentialFromResult(result);
@@ -56,11 +56,9 @@ export const handleRedirectResult = async() => {
           const user = result.user;
     
           // You can retrieve IdP data using getAdditionalUserInfo(result) if needed.
-          console.log("User signed in:", user);
-          console.log("Access Token:", token);
-        } else {
-          console.log("No redirect result found.");
-        }
+          // console.log("User signed in:", user);
+          // console.log("Access Token:", token);
+        } 
       } catch (error) {
         // Handle errors here
         console.error("Error during redirect result:", error);

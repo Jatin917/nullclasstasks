@@ -7,7 +7,7 @@ import { staticTranslator } from "../../services";
 const PostPage = ({slidein}) => {
   const posts = useSelector((state)=> state.translatedPostDataReducer); 
   const targetLang = localStorage.getItem("lang"); 
-  console.log("updated post", posts);
+  // console.log("updated post", posts);
 
   const styles = {
     container: {

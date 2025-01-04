@@ -16,7 +16,7 @@ export const acceptReq = (id) => async (dispatch) =>{
     try {
         const { data, status } = await api.acceptReq(id);
         if(status===200){
-            console.log(data);
+            // // // // // // console.log(data);
             dispatch({type:"FRIEND_REQ_HANDLE", payload:data});
             return {success:true, message:"Successfully accepted request"};
         }
@@ -29,7 +29,7 @@ export const cancelReq = (id) => async (dispatch) =>{
     try {
         const { data, status } = await api.cancelReq(id);
         if(status===200){
-            console.log(data);
+            // // console.log(data);
             dispatch({type:"FRIEND_REQ_HANDLE", payload:data});
             return {success:true, message:"Successfully Cancelled request"};
         }
@@ -42,7 +42,7 @@ export const rejectReq = (id) => async (dispatch) =>{
     try {
         const { data, status } = await api.rejectReq(id);
         if(status===200){
-            console.log(data);
+            // console.log(data);
             dispatch({type:"FRIEND_REQ_HANDLE", payload:data});
             return {success:true, message:"Successfully rejectted request"};
         }
@@ -55,7 +55,7 @@ export const unfriendReq = (id) => async (dispatch) =>{
     try {
         const { data, status } = await api.unfriendReq(id);
         if(status===200){
-            console.log(data);
+            // console.log(data);
             dispatch({type:"FRIEND_REQ_HANDLE", payload:data});
             return {success:true, message:"Successfully unfriended request"};
         }

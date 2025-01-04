@@ -5,7 +5,7 @@ export const fetchAllPost = ()=> async(dispatch)=>{
         const {data} = await api.getAllPost();
         dispatch({type:"FETCH_POSTS", payload:data.post});
     } catch (error) {
-        console.log(error)
+        // console.log(error)
     }
 }
 

@@ -16,7 +16,7 @@ const [newComment, setNewComment] = useState('');
   async function handleComment(id, comment) {
     console.log("handle Comment ", comment);
     if (!token) {
-      alert(staticTranslator("alertMsgLogin", targetLang));
+      alert(staticTranslator("You need to signup or login first", targetLang));
       navigate("/auth");
     } else {
       const response = dispatch(commentOnPost(id, comment));

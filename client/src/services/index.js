@@ -11,10 +11,7 @@ export const staticTranslator = (key, lang) => {
     )
     .join("");
 
-    // console.log(updatedKey)
-    console.log("lang after if check", lang)
     if(lang===null || lang==="" || lang===undefined) lang="en";
-    console.log("lang before if check", lang)
     if (!translations[lang]) {
         translations[lang] = {}; 
     }
@@ -28,7 +25,7 @@ export const staticTranslator = (key, lang) => {
 
 const translateAndUpdateTranslation =async (lang, updatedKey, key) =>{
     const value = await translateData(lang, key);
-    console.log("translated values in updater funciton", updatedKey, lang);
+    // console.log("translated values in updater funciton", updatedKey, lang);
     translations[lang][updatedKey] = value;
     return value;
 }
