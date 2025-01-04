@@ -45,15 +45,15 @@ const GoogleAuthButton = () => {
     boxShadow: "0 0 0 2px rgba(59, 130, 246, 0.5)", 
   };
 
-  const isMobile = () => window.innerWidth <= 768;
+  // const isMobile = () => window.innerWidth <= 768;
 
   async function handleGoogleAuth() {
     try {
-      if (isMobile()) {
-        await authenticationRedirect();
-      } else {
-        await authenticationPopup();
-      }
+      // if (isMobile()) {
+      //   await authenticationRedirect();
+      // } else {
+      // }
+      await authenticationPopup();
       await dispatch(googleAuth(navigate));
     } catch (error) {
       console.error("Google Authentication failed:", error);
