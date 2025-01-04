@@ -38,6 +38,7 @@ export const postanswer=(id,noofanswers,answerbody,useranswered)=>API.patch(`/an
 export const deleteanswer=(id,answerid,noofanswers)=>API.patch(`/answer/delete/${id}`,{answerid,noofanswers});
 
 export const getAllPost = ()=> API.get("/media/post");
+export const getPost = (id)=> API.get(`/media/post/${id}`);
 export const likePost = (id)=> API.patch(`media/post/${id}/like`)
 export const dislikePost = (id)=> API.patch(`media/post/${id}/unlike`)
 export const commentOnPost = (id, content)=> API.post(`media/post/${id}/comment`, content)

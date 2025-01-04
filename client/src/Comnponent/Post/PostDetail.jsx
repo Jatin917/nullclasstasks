@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import sampleUser from '../../assets/SampleUser.png';
 import Leftsidebar from '../Leftsidebar/Leftsidebar';
 import CommentComponent from './CommentComponent';
@@ -9,11 +9,14 @@ import LikeComponent from './LikeComponent';
 import ShareDialog from './ShareDialog';
 import { staticTranslator } from '../../services';
 import './postDetail.css'
+// import { fetchPost } from '../../action/post';
+import { translateData } from '../../action/translator';
+import { getPost } from '../../api';
+// import { translator } from '../../action/translator';
 const PostDetail = ({ slidein }) => {
+  const [post, setPost] = useState([]);
   const targetLang = localStorage.getItem("lang");
   const { id } = useParams();
-  const posts = useSelector((state) => state.translatedPostDataReducer);
-  const post = posts.filter((p) => p._id === id)[0];
   const [isLiked, setIsLiked] = useState(false);
   const [showAllComments, setShowAllComments] = useState(false);
 
@@ -27,6 +30,14 @@ const PostDetail = ({ slidein }) => {
       minute: '2-digit'
     });
   };
+  useEffect(()=>{
+    const fetchPost = async()=>{
+      const { data } = await getPost(id);
+      const translatedData = await translateData(targetLang, data.post);
+      setPost(translatedData);
+    }
+    fetchPost();
+  },[id, targetLang])
 
   return (
     <div className="container">

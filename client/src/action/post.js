@@ -9,6 +9,15 @@ export const fetchAllPost = ()=> async(dispatch)=>{
     }
 }
 
+export const fetchPost = (id) => async(disptach)=>{
+    try {
+        const { data } = await api.getPost(id);
+        disptach({type:"FETCH_POST", payload:data.post});
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 export const likePost = (id) =>async(dispatch)=>{
     try {
         const {status, data} = await api.likePost(id);

@@ -125,7 +125,6 @@ export const getUserPost = async (req, res) =>{
   try {
     const postId = req.params.id;
     const post = await postSchema.findById(postId).populate({path:"comments.user_id", select:"name"}).populate({path:"comments.user_id", select:"name profilePicture"}).populate({path:"user_id", select:"name profilePicture"});
-    console.log(post)
     if(!post){
       return res.json("error while fetching post");
     }

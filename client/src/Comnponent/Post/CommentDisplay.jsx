@@ -18,7 +18,7 @@ const CommentDisplay = ({
           minute: '2-digit'
         });
       };
-  const displayedComments = showAllComments ? post.comments : post.comments.slice(0, 2);
+  const displayedComments = showAllComments ? post.comments : post?.comments?.slice(0, 2);
   const styles = {
     container: {
       borderTop: "1px solid #e5e7eb", // Equivalent to border-t border-gray-200
@@ -80,7 +80,7 @@ const CommentDisplay = ({
   
   return (
     <>
-      {post.comments.length > 0 && (
+      {post?.comments?.length > 0 && (
         <div style={styles.container}>
           <div style={styles.commentsWrapper}>
             {displayedComments.map((comment, index) => (
@@ -103,7 +103,7 @@ const CommentDisplay = ({
             ))}
           </div>
   
-          {post.comments.length > 2 && !showAllComments && (
+          {post?.comments?.length > 2 && !showAllComments && (
             <button
               onClick={() => setShowAllComments(true)}
               style={styles.showMoreButton}
@@ -112,7 +112,7 @@ const CommentDisplay = ({
                 Object.assign(e.target.style, { color: styles.showMoreButton.color })
               }
             >
-              {staticTranslator("Show", targetLang)} {post.comments.length - 2}{" "}
+              {staticTranslator("Show", targetLang)} {post?.comments?.length - 2}{" "}
               {staticTranslator("more comments", targetLang)}
             </button>
           )}

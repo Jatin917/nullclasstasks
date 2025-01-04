@@ -47,7 +47,7 @@ const LikeComponent = ({post, isLiked, setIsLiked }) => {
     (state) => state.currentuserreducer?.result?._id
   );
   function currentUserLiked(likedUserId) {
-    for (let i = 0; i < likedUserId.length; i++) {
+    for (let i = 0; i < likedUserId?.length; i++) {
       if (likedUserId[i] === currentUserId) {
         setIsLiked(true);
         return;
