@@ -128,5 +128,7 @@
   "Reject": "Reject",
   "Accept": "Accept",
   "Copied!": "Copied!",
-  "times": "times"
+  "times": "times",
+  "Cancel": "Cancel",
+  "Enter your phone number with country code to receive verification code": "Enter your phone number with country code to receive verification code"
 }
