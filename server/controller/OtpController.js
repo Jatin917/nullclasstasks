@@ -1,10 +1,9 @@
 // const nodemailer = require("nodemailer");
 import nodemailer from 'nodemailer'
-import twilio from 'twilio'
+
 import TelesignSDK from 'telesignenterprisesdk'
 
 const otpStorage = new Map();
-const client = new twilio(process.env.ACCOUNT_SID, process.env.ACCOUNT_AUTH_TOKEN);
 
 
 const transporter = nodemailer.createTransport({
