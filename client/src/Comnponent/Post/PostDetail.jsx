@@ -40,10 +40,8 @@ const PostDetail = ({ slidein }) => {
     <div className="container">
       <Leftsidebar slidein={slidein} />
   
-      {/* Main Content Area */}
       <div className="main-content">
         <div className="content-wrapper">
-          {/* Question Header */}
           <div className="question-header">
             <h1 className="post-title">{post.title}</h1>
             <div className="meta-info">
@@ -52,23 +50,18 @@ const PostDetail = ({ slidein }) => {
             </div>
           </div>
   
-          {/* Main Grid */}
           <div className="grid-container">
-            {/* Voting Column */}
             <div className="voting-column">
               <LikeComponent post={post} isLiked={isLiked} setIsLiked={setIsLiked} />
               <ShareDialog postId={post._id} postTitle={post.title} />
             </div>
   
-            {/* Main Content Column */}
             <div className="content-column">
-              {/* Post Content */}
               <div className="post-content">
                 <div className="text-content">
                   <p>{post.content}</p>
                 </div>
   
-                {/* Media Content */}
                 {post.media_url && (
                   <div className="media-content">
                     {post.media_type === "photo" && (
@@ -90,7 +83,6 @@ const PostDetail = ({ slidein }) => {
                   </div>
                 )}
   
-                {/* Tags */}
                 <div className="tags-container">
                   {post.tags?.map((tag, index) => (
                     <span key={index} className="tag">
@@ -99,7 +91,6 @@ const PostDetail = ({ slidein }) => {
                   )) || null}
                 </div>
   
-                {/* User Card */}
                 <div className="user-card">
                   <div className="user-card-container">
                     <div className="user-meta">
@@ -119,7 +110,6 @@ const PostDetail = ({ slidein }) => {
                 </div>
               </div>
   
-              {/* Comments Section */}
               <div className="comments-section">
                 <h2 className="comments-header">
                   {post.comments?.length || 0} {staticTranslator("Comments", targetLang)}

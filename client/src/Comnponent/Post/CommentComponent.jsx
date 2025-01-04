@@ -32,16 +32,16 @@ const [newComment, setNewComment] = useState('');
     container: {
       display: "flex",
       alignItems: "center",
-      gap: "0.5rem", // Equivalent to space-x-2
-      marginTop: "0.5rem", // Equivalent to mt-2
+      gap: "0.5rem",
+      marginTop: "0.5rem",
     },
     avatar: {
-      width: "1.5rem", // Equivalent to w-6
-      height: "1.5rem", // Equivalent to h-6
-      borderRadius: "9999px", // Equivalent to rounded-full
+      width: "1.5rem", 
+      height: "1.5rem",
+      borderRadius: "9999px",
     },
     inputWrapper: {
-      flex: 1, // Equivalent to flex-1
+      flex: 1, 
       position: "relative",
     },
     input: {
@@ -74,7 +74,7 @@ const [newComment, setNewComment] = useState('');
       transition: "color 0.2s",
     },
     sendButtonHover: {
-      color: "#2563eb", // Equivalent to hover:text-blue-600
+      color: "#2563eb", 
     },
   };
   

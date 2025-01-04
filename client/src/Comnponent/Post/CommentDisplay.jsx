@@ -21,9 +21,9 @@ const CommentDisplay = ({
   const displayedComments = showAllComments ? post.comments : post?.comments?.slice(0, 2);
   const styles = {
     container: {
-      borderTop: "1px solid #e5e7eb", // Equivalent to border-t border-gray-200
-      paddingTop: "1rem", // Equivalent to pt-4
-      marginTop: "1rem", // Equivalent to mt-4
+      borderTop: "1px solid #e5e7eb", 
+      paddingTop: "1rem", 
+      marginTop: "1rem", 
     },
     commentsWrapper: {
       display: "flex",

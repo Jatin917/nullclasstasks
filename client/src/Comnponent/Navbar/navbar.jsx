@@ -111,7 +111,6 @@ function Navbar({ handleslidein, targetLang, setTargetLang }) {
                 </Link>
               </>
             )}
-            {/* Language Selector */}
             <div className="language-selector">
               <select
                 value={targetLang}

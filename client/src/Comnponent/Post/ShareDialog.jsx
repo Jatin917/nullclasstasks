@@ -8,10 +8,8 @@ const ShareDialog = ({ postId, postTitle }) => {
   const dialogRef = useRef(null);
   const targetLang = localStorage.getItem("lang");
 
-  // Generate the share URL
   const shareUrl = `${window.location.origin}/Posts/${postId}`;
 
-  // Handle click outside to close
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dialogRef.current && !dialogRef.current.contains(event.target)) {
@@ -197,7 +195,6 @@ const ShareDialog = ({ postId, postTitle }) => {
               </button>
             </div>
   
-            {/* Copy Link Section */}
             <div style={styles.copySection.wrapper}>
               <div style={styles.copySection.container}>
                 <input
@@ -218,7 +215,6 @@ const ShareDialog = ({ postId, postTitle }) => {
               </div>
             </div>
   
-            {/* Social Share Options */}
             <div style={styles.socialButtons.grid}>
               <button
                 onClick={() => window.open(twitterShareUrl, "_blank")}
@@ -236,7 +232,6 @@ const ShareDialog = ({ postId, postTitle }) => {
               </button>
             </div>
   
-            {/* Share Tips */}
             <div style={styles.tips.container}>
               <h4 style={styles.tips.title}>
                 {staticTranslator("Share a link to this post", targetLang)}

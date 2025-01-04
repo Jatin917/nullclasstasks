@@ -31,9 +31,8 @@ const CreatePost = ({slidein}) => {
         formData.append("title", title);
         formData.append("content", content);
         formData.append("media_type", mediaType);
-        formData.append("media", media); // This will send the file
+        formData.append("media", media); 
 
-        // Dispatch the action or make an API call
         dispatch(createPost(formData, navigate));
         setContent('');
         setMedia(null)

@@ -100,7 +100,6 @@ const Userprofile = ({slidein}) => {
         <div className="orange-divider" />
   
         <div className="profile-container">
-          {/* Profile Header */}
           <div className="profile-header">
             <img
               src={currentprofile?.profilePicture || sampleUser}
@@ -159,9 +158,7 @@ const Userprofile = ({slidein}) => {
             </div>
           </div>
   
-          {/* Profile Content Grid */}
           <div className="profile-grid">
-            {/* Connections Card */}
             <div className="profile-card">
               <div className="card-header">
                 <h3>{staticTranslator("Connections", targetLang)}</h3>
@@ -204,7 +201,6 @@ const Userprofile = ({slidein}) => {
               </div>
             </div>
 
-            {/* Activity Card */}
             <div className="profile-card">
               <div className="card-header">
                 <h3>{staticTranslator("Activity", targetLang)}</h3>
@@ -234,7 +230,6 @@ const Userprofile = ({slidein}) => {
         </div>
       </div>
 
-      {/* Modals */}
       {(showPendingModal || showSentModal || showFriendsModal) && (
         <div className="modal-overlay" onClick={() => {
           setShowPendingModal(false);

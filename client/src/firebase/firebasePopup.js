@@ -22,22 +22,22 @@ export const authenticationPopup = async() => {
 }
 
 export const getGoogleToken = async () => {
-    const user = auth.currentUser; // Get the current user
+    const user = auth.currentUser; 
     if (user) {
         try {
-            const token = await user.getIdToken(true); // Pass 'true' to force refresh the token
-            return token; // Return the token
+            const token = await user.getIdToken(true);
+            return token; 
         } catch (error) {
             console.error("Error retrieving ID token:", error);
-            return null; // Return null if an error occurs
+            return null;
         }
     }
-    return null; // Return null if no user is authenticated
+    return null; 
 };
 
 export const authenticationRedirect = async () => {
     try {
-      await signInWithRedirect(auth, provider); // This starts the redirect flow
+      await signInWithRedirect(auth, provider); 
     } catch (error) {
       console.error("Error during sign-in redirect:", error);
     }
@@ -46,29 +46,22 @@ export const authenticationRedirect = async () => {
 export const handleRedirectResult = async() => {
     try {
         const result = await getRedirectResult(auth);
-        // console.log("result for redirect is ", result)
         if (result) {
-          // This gives you a Google Access Token. You can use it to access Google APIs.
           const credential = GoogleAuthProvider.credentialFromResult(result);
           const token = credential.accessToken;
     
-          // The signed-in user info.
           const user = result.user;
     
-          // You can retrieve IdP data using getAdditionalUserInfo(result) if needed.
           // console.log("User signed in:", user);
           // console.log("Access Token:", token);
         } 
       } catch (error) {
-        // Handle errors here
         console.error("Error during redirect result:", error);
         const errorCode = error.code;
         const errorMessage = error.message;
     
-        // The email of the user's account used (if available).
         const email = error.customData?.email;
     
-        // The AuthCredential type that was used.
         const credential = GoogleAuthProvider.credentialFromError(error);
     
         console.error("Error details:", { errorCode, errorMessage, email, credential });
