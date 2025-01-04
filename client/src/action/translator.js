@@ -6,7 +6,7 @@ import translations from "../translations/translation";
 const translatorApi = async (target, query) => {
   try {
     const response = await axios.get(
-      `http://localhost:5000/translate?target=${target}&query=${query}`
+      `${process.env.REACT_APP_BASE_URL_BACKEND}/translate?target=${target}&query=${query}`
     );
     if (response.data && response.data.translation) {
       return { success: true, data: response.data.translation };
