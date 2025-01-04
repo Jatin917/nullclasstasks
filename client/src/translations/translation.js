@@ -228,7 +228,7 @@ const translations = {
   whyWasThisSpamFlagDeclinedYetTheQuestionMarkedAsSpam: "इस स्पैम फ़्लैग को अस्वीकार क्यों कर दिया गया, फिर भी प्रश्न को स्पैम के रूप में क्यों चिह्नित किया गया",
   whatIsTheBestCourseOfActionWhenAUserHasHighEnoughRepto: "जब किसी उपयोगकर्ता की रेप्टो पर्याप्त उच्च हो तो सबसे अच्छा उपाय क्या है?",
   isALinkToTheHowToAskHelpPageAUsefulComment: "क्या \"कैसे पूछें\" सहायता पृष्ठ का लिंक एक उपयोगी टिप्पणी है",
-  forgotPassword: "पासवर्ड भूल गए",
+  // forgotPassword: "पासवर्ड भूल गए",
   dontHaveAnAccount: "कोई खाता नहीं है",
   signUp: "साइन अप करें",
   logout: "लॉग आउट",

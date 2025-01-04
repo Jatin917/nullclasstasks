@@ -1,6 +1,6 @@
-import React, { useDebugValue, useState } from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import sampleUser from '../../assets/SampleUser.png';
 import Leftsidebar from '../Leftsidebar/Leftsidebar';
 import CommentComponent from './CommentComponent';

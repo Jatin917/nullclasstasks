@@ -4,7 +4,6 @@ import { useSelector, useDispatch } from "react-redux";
 import bars from "../../assets/bars-solid.svg";
 import logo from "../../assets/logo.png";
 import search from "../../assets/search-solid.svg";
-import Avatar from "../Avatar/Avatar";
 import "./navbar.css";
 import { setcurrentuser } from "../../action/currentuser";
 import {jwtDecode} from "jwt-decode";

@@ -1,5 +1,4 @@
 import axios from "axios";
-import { useSelector } from "react-redux";
 import translations from "../translations/translation";
 
 // API call to get translation
